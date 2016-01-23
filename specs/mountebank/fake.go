@@ -1,0 +1,5 @@
+package mountebank
+
+func dummy() {
+	
+}
