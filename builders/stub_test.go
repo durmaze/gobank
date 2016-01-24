@@ -24,11 +24,7 @@ var _ = Describe("Stub Builder Tests", func() {
 				expectedResponse = Response{
 					Is: Is{
 						StatusCode: 200,
-						Headers: map[string]string{
-							"Content-Type":    "application/json",
-							"X-Custom-Header": "ABC123",
-						},
-						Body: "{ \"greeting\": \"Hello GoBank\" }",
+						Body:       "{ \"greeting\": \"Hello GoBank\" }",
 					},
 				}
 
@@ -40,14 +36,6 @@ var _ = Describe("Stub Builder Tests", func() {
 
 		It("should create a Stub that returns a Response with the correct StatusCode", func() {
 			Expect(actualResponse.Is.StatusCode).To(Equal(expectedResponse.Is.StatusCode))
-		})
-
-		It("should create a Stub that returns a Response with the correct Content-Type header", func() {
-			Expect(actualResponse.Is.Headers["Content-Type"]).To(Equal(expectedResponse.Is.Headers["Content-Type"]))
-		})
-
-		It("should create a Stub that returns a Response with the correct Custom header", func() {
-			Expect(actualResponse.Is.Headers["X-Custom-Header"]).To(Equal(expectedResponse.Is.Headers["X-Custom-Header"]))
 		})
 
 		It("should create a Stub that returns a Response with the correct Body", func() {
@@ -72,11 +60,7 @@ var _ = Describe("Stub Builder Tests", func() {
 				expectedResponse = Response{
 					Is: Is{
 						StatusCode: 200,
-						Headers: map[string]string{
-							"Content-Type":    "application/json",
-							"X-Custom-Header": "ABC123",
-						},
-						Body: "{ \"greeting\": \"Hello GoBank\" }",
+						Body:       "{ \"greeting\": \"Hello GoBank\" }",
 					},
 				}
 
@@ -95,14 +79,6 @@ var _ = Describe("Stub Builder Tests", func() {
 
 		It("should create a Stub that returns a Response with the correct StatusCode", func() {
 			Expect(actualResponse.Is.StatusCode).To(Equal(expectedResponse.Is.StatusCode))
-		})
-
-		It("should create a Stub that returns a Response with the correct Content-Type header", func() {
-			Expect(actualResponse.Is.Headers["Content-Type"]).To(Equal(expectedResponse.Is.Headers["Content-Type"]))
-		})
-
-		It("should create a Stub that returns a Response with the correct Custom header", func() {
-			Expect(actualResponse.Is.Headers["X-Custom-Header"]).To(Equal(expectedResponse.Is.Headers["X-Custom-Header"]))
 		})
 
 		It("should create a Stub that returns a Response with the correct Body", func() {
