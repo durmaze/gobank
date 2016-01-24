@@ -22,6 +22,7 @@ var _ = Describe("Stub Builder Tests", func() {
 			once.Do(func(){
 				is := Is{
 					StatusCode: 200,
+					Body: "{ \"greeting\": \"Hello GoBank\" }",
 				}
 
 				expectedResponse = Response{
@@ -36,6 +37,10 @@ var _ = Describe("Stub Builder Tests", func() {
 
 		It("should create a Stub that returns a Response with the correct StatusCode", func() {
 			Expect(actualResponse.Is.StatusCode).To(Equal(expectedResponse.Is.StatusCode))
+		})
+
+		It("should create a Stub that returns a Response with the correct Body", func() {
+			Expect(actualResponse.Is.Body).To(Equal(expectedResponse.Is.Body))
 		})
 	})
 

@@ -10,6 +10,7 @@ type Response struct{
 
 type Is struct{
 	StatusCode int `json:"statusCode"`
+	Body string `json:"body"`
 }
 
 type stubBuilder struct{

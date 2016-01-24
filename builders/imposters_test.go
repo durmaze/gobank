@@ -31,6 +31,4 @@ var _ = Describe("Imposter Builder Tests", func() {
 	  })
 	})
 
-
-
 })
