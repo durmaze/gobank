@@ -1,4 +1,4 @@
-package imposters_test
+package builders_test
 
 import (
 	. "github.com/onsi/ginkgo"
@@ -9,5 +9,5 @@ import (
 
 func TestImposters(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Imposters Test Suite")
+	RunSpecs(t, "Mountebank Imposter Builders Test Suite")
 }

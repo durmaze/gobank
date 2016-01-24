@@ -2,7 +2,7 @@ package mountebank_test
 
 import (
 	"github.com/durmaze/gobank/mountebank"
-	"github.com/durmaze/gobank/imposters"
+	"github.com/durmaze/gobank/builders"
 	"github.com/parnurzeal/gorequest"
 	"net/http"
 
@@ -13,7 +13,8 @@ import (
 var _ = Describe("When create Imposter request is sent to Mountebank", func() {
 
 	BeforeEach(func() {
-		imposter := imposters.New().Protocol("http").Port(4546).Build()
+		imposterBuilder := builders.NewImposterBuilder()
+		imposter := imposterBuilder.Protocol("http").Port(4546).Build()
 
 		mountebank.CreateImposter(imposter)
   })

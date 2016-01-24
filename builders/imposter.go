@@ -1,4 +1,4 @@
-package imposters
+package builders
 
 type Imposter struct{
 	Protocol string `json:"protocol"`
@@ -35,6 +35,6 @@ func (builder *imposterBuilder) Build() Imposter {
 	}
 }
 
-func New() ImposterBuilder {
+func NewImposterBuilder() ImposterBuilder {
 	return &imposterBuilder{}
 }

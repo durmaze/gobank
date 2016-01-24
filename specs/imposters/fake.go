@@ -1,5 +1,0 @@
-package imposters
-
-func dummy() {
-	
-}

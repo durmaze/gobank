@@ -1,5 +1,0 @@
-package mountebank
-
-func dummy() {
-	
-}

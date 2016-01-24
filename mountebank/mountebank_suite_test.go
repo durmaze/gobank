@@ -11,11 +11,11 @@ import (
 
 func TestMountebank(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Mountebank Test Suite")
+	RunSpecs(t, "Mountebank Integration Test Suite")
 }
 
 var _ = BeforeSuite(func() {
-  Expect(isMountebankRunning()).To(BeTrue())
+  Expect(isMountebankRunning()).To(BeTrue(), "Mountebank is not running")
 })
 
 var _ = AfterSuite(func() {
