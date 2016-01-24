@@ -1,1 +1,2 @@
 - add tests for JSON output checking
+- restrict builder calls (e.g. imposter.Protocol(..).Protocol(..) should not be allowed)

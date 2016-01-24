@@ -4,16 +4,6 @@ type Stub struct{
 	Responses []Response `json:"responses"`
 }
 
-type Response struct{
-	Is Is `json:"is"`
-}
-
-type Is struct{
-	StatusCode int `json:"statusCode"`
-	Headers map[string]string `json:"headers"`
-	Body string `json:"body"`
-}
-
 type stubBuilder struct{
 	responses []Response
 }
