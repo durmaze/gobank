@@ -9,5 +9,5 @@ import (
 
 func TestImposters(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Mountebank Imposter Builders Test Suite")
+	RunSpecs(t, "Mountebank Builders Test Suite")
 }

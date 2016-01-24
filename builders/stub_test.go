@@ -20,18 +20,16 @@ var _ = Describe("Stub Builder Tests", func() {
 
 		BeforeEach(func() {
 			once.Do(func(){
-				headers := make(map[string]string)
-				headers["Content-Type"] = "application/json"
-				headers["X-Custom-Header"] = "ABC123"
-
-				is := Is{
-					StatusCode: 200,
-					Headers: headers,
-					Body: "{ \"greeting\": \"Hello GoBank\" }",
-				}
 
 				expectedResponse = Response{
-					Is: is,
+					Is: Is{
+						StatusCode: 200,
+						Headers: map[string]string {
+							"Content-Type" : "application/json",
+							"X-Custom-Header" : "ABC123",
+						},
+						Body: "{ \"greeting\": \"Hello GoBank\" }",
+					},
 				}
 
 				stub := NewStubBuilder().AddResponse(expectedResponse).Build()
