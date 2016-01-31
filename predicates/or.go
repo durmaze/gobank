@@ -1,19 +1,19 @@
 package predicates
 
-type Or struct {
+type or struct {
 	Predicates []Predicate `json:"or"`
 }
 
 type OrBuilder struct {
-	or Or
+	or or
 }
 
-func (p Or) Type() string {
-	return "Or"
+func (p or) Type() string {
+	return "or"
 }
 
 func NewOrBuilder() *OrBuilder {
-	return &OrBuilder{or: Or{}}
+	return &OrBuilder{or: or{}}
 }
 
 func (builder *OrBuilder) AddPredicate(predicate Predicate) *OrBuilder {
@@ -22,6 +22,6 @@ func (builder *OrBuilder) AddPredicate(predicate Predicate) *OrBuilder {
 	return builder
 }
 
-func (builder *OrBuilder) Build() Or {
+func (builder *OrBuilder) Build() or {
 	return builder.or
 }

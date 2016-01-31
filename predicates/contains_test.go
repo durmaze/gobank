@@ -30,7 +30,7 @@ var _ = Describe("Predicate Builder Tests", func() {
 
 		BeforeEach(func() {
 			once.Do(func() {
-				actualPredicate := predicates.NewContainsBuilder().
+				actualPredicate := predicates.Contains().
 					Path(expectedPath).
 					Method(expectedMethod).
 					Header(expectedHeader, expectedHeaderValue).
@@ -41,9 +41,6 @@ var _ = Describe("Predicate Builder Tests", func() {
 				jsonBytes, _ := json.Marshal(actualPredicate)
 				actualPredicateAsMap = map[string]interface{}{}
 				json.Unmarshal(jsonBytes, &actualPredicateAsMap)
-
-				// marshalResult := NewMarshaller(actualPredicate).ToJson()
-				// actualPredicateAsMap = marshalResult.ToMap()
 			})
 		})
 

@@ -1,20 +1,16 @@
 package predicates
 
-import (
-	"encoding/json"
-	"log"
-)
+import "encoding/json"
 
-type Equals struct {
+type equals struct {
 	req Request
 }
 
-func (p Equals) Type() string {
-	return "Equals"
+func (p equals) Type() string {
+	return "equals"
 }
 
-func (p Equals) MarshalJSON() ([]byte, error) {
-	log.Println("marshalling ")
+func (p equals) MarshalJSON() ([]byte, error) {
 	requestBytes, _ := json.Marshal(p.req)
 
 	requestJson := string(requestBytes)
@@ -24,11 +20,11 @@ func (p Equals) MarshalJSON() ([]byte, error) {
 }
 
 type EqualsBuilder struct {
-	equals Equals
+	equals equals
 }
 
-func NewEqualsBuilder() *EqualsBuilder {
-	return &EqualsBuilder{equals: Equals{req: Request{}}}
+func Equals() *EqualsBuilder {
+	return &EqualsBuilder{equals: equals{req: Request{}}}
 }
 
 func (builder *EqualsBuilder) Path(path string) *EqualsBuilder {
@@ -63,6 +59,6 @@ func (builder *EqualsBuilder) Body(body string) *EqualsBuilder {
 	return builder
 }
 
-func (builder *EqualsBuilder) Build() Equals {
+func (builder *EqualsBuilder) Build() equals {
 	return builder.equals
 }

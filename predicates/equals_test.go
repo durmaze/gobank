@@ -30,7 +30,7 @@ var _ = Describe("Equals Predicate Builder Tests", func() {
 
 		BeforeEach(func() {
 			once.Do(func() {
-				actualPredicate := predicates.NewEqualsBuilder().
+				actualPredicate := predicates.Equals().
 					Path(expectedPath).
 					Method(expectedMethod).
 					Header(expectedHeader, expectedHeaderValue).

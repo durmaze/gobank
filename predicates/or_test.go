@@ -16,9 +16,9 @@ var _ = Describe("Or Predicate Builder Tests", func() {
 
 		var (
 			actualPredicateAsMap map[string]interface{}
-			predicate1           = predicates.NewEqualsBuilder().Build()
-			predicate2           = predicates.NewContainsBuilder().Build()
-			predicate3           = predicates.NewEqualsBuilder().Build()
+			predicate1           = predicates.Equals().Build()
+			predicate2           = predicates.Contains().Build()
+			predicate3           = predicates.Equals().Build()
 
 			once sync.Once
 		)

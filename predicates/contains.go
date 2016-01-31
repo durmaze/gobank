@@ -1,20 +1,16 @@
 package predicates
 
-import (
-	"encoding/json"
-	"log"
-)
+import "encoding/json"
 
-type Contains struct {
+type contains struct {
 	req Request
 }
 
-func (p Contains) Type() string {
-	return "Contains"
+func (p contains) Type() string {
+	return "contains"
 }
 
-func (p Contains) MarshalJSON() ([]byte, error) {
-	log.Println("marshalling ")
+func (p contains) MarshalJSON() ([]byte, error) {
 	requestBytes, _ := json.Marshal(p.req)
 
 	requestJson := string(requestBytes)
@@ -24,11 +20,11 @@ func (p Contains) MarshalJSON() ([]byte, error) {
 }
 
 type ContainsBuilder struct {
-	contains Contains
+	contains contains
 }
 
-func NewContainsBuilder() *ContainsBuilder {
-	return &ContainsBuilder{contains: Contains{req: Request{}}}
+func Contains() *ContainsBuilder {
+	return &ContainsBuilder{contains: contains{req: Request{}}}
 }
 
 func (builder *ContainsBuilder) Path(path string) *ContainsBuilder {
@@ -63,6 +59,6 @@ func (builder *ContainsBuilder) Body(body string) *ContainsBuilder {
 	return builder
 }
 
-func (builder *ContainsBuilder) Build() Contains {
+func (builder *ContainsBuilder) Build() contains {
 	return builder.contains
 }

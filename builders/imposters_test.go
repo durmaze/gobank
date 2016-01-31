@@ -21,10 +21,10 @@ var _ = Describe("Imposter Builder Tests", func() {
 
 		BeforeEach(func() {
 			once.Do(func() {
-				response := responses.NewResponseBuilder().IsResponse().StatusCode(200).Body("{}").Build()
+				response := responses.Is().StatusCode(200).Body("{}").Build()
 
-				equals := predicates.NewEqualsBuilder().Path("/test-path").Build()
-				contains := predicates.NewContainsBuilder().Header("Content-Type", "application/json").Build()
+				equals := predicates.Equals().Path("/test-path").Build()
+				contains := predicates.Contains().Header("Content-Type", "application/json").Build()
 
 				stub := NewStubBuilder().Responses(response).Predicates(equals, contains).Build()
 
