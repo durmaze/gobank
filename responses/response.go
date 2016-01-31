@@ -1,17 +1,16 @@
-package builders
+package responses
 
-
-type Response struct{
+type Response struct {
 	Is Is `json:"is"`
 }
 
-type Is struct{
-	StatusCode int `json:"statusCode"`
-	Headers map[string]string `json:"headers"`
-	Body string `json:"body"`
+type Is struct {
+	StatusCode int               `json:"statusCode,omitempty"`
+	Headers    map[string]string `json:"headers,omitempty"`
+	Body       string            `json:"body,omitempty"`
 }
 
-type responseBuilder struct{
+type responseBuilder struct {
 	is *Is
 }
 

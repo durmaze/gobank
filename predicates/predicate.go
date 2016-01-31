@@ -1,5 +1,5 @@
 package predicates
 
 type Predicate interface {
-	MarshalJSON() ([]byte, error)
+	Type() string
 }

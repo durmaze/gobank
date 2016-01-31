@@ -4,13 +4,13 @@ import (
 	"encoding/json"
 	"sync"
 
-	. "github.com/durmaze/gobank/builders"
+	"github.com/durmaze/gobank/predicates"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
 
-var _ = Describe("Predicate Builder Tests", func() {
+var _ = Describe("Equals Predicate Builder Tests", func() {
 
 	Describe("When building a Predicate of type \"Equals\"", func() {
 
@@ -30,7 +30,7 @@ var _ = Describe("Predicate Builder Tests", func() {
 
 		BeforeEach(func() {
 			once.Do(func() {
-				actualPredicate := NewEqualsBuilder().
+				actualPredicate := predicates.NewEqualsBuilder().
 					Path(expectedPath).
 					Method(expectedMethod).
 					Header(expectedHeader, expectedHeaderValue).

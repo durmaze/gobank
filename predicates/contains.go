@@ -9,9 +9,13 @@ type Contains struct {
 	req Request
 }
 
-func (e Contains) MarshalJSON() ([]byte, error) {
+func (p Contains) Type() string {
+	return "Contains"
+}
+
+func (p Contains) MarshalJSON() ([]byte, error) {
 	log.Println("marshalling ")
-	requestBytes, _ := json.Marshal(e.req)
+	requestBytes, _ := json.Marshal(p.req)
 
 	requestJson := string(requestBytes)
 	containsJson := " { \"contains\" : " + requestJson + "}"

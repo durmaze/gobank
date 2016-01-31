@@ -1,7 +1,7 @@
 package builders_test
 
 import (
-	"fmt"
+	"encoding/json"
 	"log"
 
 	. "github.com/durmaze/gobank/builders"
@@ -67,13 +67,14 @@ var _ = Describe("Stub Builder Tests", func() {
 						Body:       "{ \"greeting\": \"Hello GoBank\" }",
 					},
 				}
-				log.Println("expectedResponse", expectedResponse)
 				expectedPredicate := predicates.NewEqualsBuilder().Path("/test-path").Build()
-				log.Println("expectedPredicate", expectedPredicate)
 
 				stub = NewStubBuilder().AddResponse(expectedResponse).AddPredicate(expectedPredicate).Build()
 
 				actualResponse = stub.Responses[0]
+
+				stubsJSON, _ := json.Marshal(stub)
+				log.Println("stub : ", string(stubsJSON))
 			})
 		})
 
@@ -90,7 +91,7 @@ var _ = Describe("Stub Builder Tests", func() {
 		})
 
 		It("should create a Stub that has a Predicate with type \"Equals\"", func() {
-			Expect(TypeOf(stub.Predicates[0])).To(Equal(TypeOf(predicates.Equals{})))
+			Expect(stub.Predicates[0].Type()).To(Equal(predicates.Equals{}.Type()))
 		})
 	})
 
@@ -136,17 +137,13 @@ var _ = Describe("Stub Builder Tests", func() {
 		})
 
 		It("should create a Stub that has a Predicate with type \"Equals\"", func() {
-			Expect(TypeOf(stub.Predicates[0])).To(Equal(TypeOf(predicates.Equals{})))
+			Expect(stub.Predicates[0].Type()).To(Equal(predicates.Equals{}.Type()))
 		})
 
 		It("should create a Stub that has a Predicate with type \"Contains\"", func() {
-			Expect(TypeOf(stub.Predicates[1])).To(Equal(TypeOf(predicates.Contains{})))
+			Expect(stub.Predicates[1].Type()).To(Equal(predicates.Contains{}.Type()))
 		})
 
 	})
 
 })
-
-func TypeOf(instance interface{}) string {
-	return fmt.Sprintf("%T", instance)
-}

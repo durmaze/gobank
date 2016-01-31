@@ -1,13 +1,13 @@
 package mountebank_test
 
 import (
+	"net/http"
+	"testing"
+
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"github.com/parnurzeal/gorequest"
-	"testing"
-	"net/http"
 )
-
 
 func TestMountebank(t *testing.T) {
 	RegisterFailHandler(Fail)
@@ -15,7 +15,7 @@ func TestMountebank(t *testing.T) {
 }
 
 var _ = BeforeSuite(func() {
-  Expect(isMountebankRunning()).To(BeTrue(), "Mountebank is not running")
+	Expect(isMountebankRunning()).To(BeTrue(), "Mountebank is not running")
 })
 
 var _ = AfterSuite(func() {

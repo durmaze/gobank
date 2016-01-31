@@ -9,9 +9,13 @@ type Equals struct {
 	req Request
 }
 
-func (e Equals) MarshalJSON() ([]byte, error) {
+func (p Equals) Type() string {
+	return "Equals"
+}
+
+func (p Equals) MarshalJSON() ([]byte, error) {
 	log.Println("marshalling ")
-	requestBytes, _ := json.Marshal(e.req)
+	requestBytes, _ := json.Marshal(p.req)
 
 	requestJson := string(requestBytes)
 	equalsJson := " { \"equals\" : " + requestJson + "}"

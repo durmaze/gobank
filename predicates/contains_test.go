@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"sync"
 
-	. "github.com/durmaze/gobank/builders"
+	"github.com/durmaze/gobank/predicates"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -30,7 +30,7 @@ var _ = Describe("Predicate Builder Tests", func() {
 
 		BeforeEach(func() {
 			once.Do(func() {
-				actualPredicate := NewContainsBuilder().
+				actualPredicate := predicates.NewContainsBuilder().
 					Path(expectedPath).
 					Method(expectedMethod).
 					Header(expectedHeader, expectedHeaderValue).
@@ -48,54 +48,54 @@ var _ = Describe("Predicate Builder Tests", func() {
 		})
 
 		It("should create a \"Contains\" Predicate", func() {
-			Expect(actualPredicateAsMap).To(HaveKey("equals"))
+			Expect(actualPredicateAsMap).To(HaveKey("contains"))
 		})
 
 		It("should create a Predicate with the correct Path", func() {
-			equalsPredicate := actualPredicateAsMap["equals"]
+			containsPredicate := actualPredicateAsMap["contains"]
 
-			Expect(equalsPredicate).To(HaveKeyWithValue("path", expectedPath))
+			Expect(containsPredicate).To(HaveKeyWithValue("path", expectedPath))
 		})
 
 		It("should create a Predicate with the correct Method", func() {
-			equalsPredicate := actualPredicateAsMap["equals"]
+			containsPredicate := actualPredicateAsMap["contains"]
 
-			Expect(equalsPredicate).To(HaveKeyWithValue("method", expectedMethod))
+			Expect(containsPredicate).To(HaveKeyWithValue("method", expectedMethod))
 		})
 
 		It("should create a Predicate with Headers", func() {
-			equalsPredicate := actualPredicateAsMap["equals"]
+			containsPredicate := actualPredicateAsMap["contains"]
 
-			Expect(equalsPredicate).To(HaveKey("headers"))
+			Expect(containsPredicate).To(HaveKey("headers"))
 		})
 
 		It("should create a Predicate with the correct Header", func() {
-			equalsPredicate := actualPredicateAsMap["equals"].(map[string]interface{})
+			containsPredicate := actualPredicateAsMap["contains"].(map[string]interface{})
 
-			headersMap := equalsPredicate["headers"].(map[string]interface{})
+			headersMap := containsPredicate["headers"].(map[string]interface{})
 			headerValue := headersMap[expectedHeader]
 
 			Expect(headerValue).To(Equal(expectedHeaderValue))
 		})
 
 		It("should create a Predicate with Query parameters", func() {
-			equalsPredicate := actualPredicateAsMap["equals"]
+			containsPredicate := actualPredicateAsMap["contains"]
 
-			Expect(equalsPredicate).To(HaveKey("query"))
+			Expect(containsPredicate).To(HaveKey("query"))
 		})
 
 		It("should create a Predicate with the correct Query parameter", func() {
-			equalsPredicate := actualPredicateAsMap["equals"].(map[string]interface{})
+			containsPredicate := actualPredicateAsMap["contains"].(map[string]interface{})
 
-			queryParametersMap := equalsPredicate["query"].(map[string]interface{})
+			queryParametersMap := containsPredicate["query"].(map[string]interface{})
 
 			Expect(queryParametersMap).To(HaveKeyWithValue(expectedQueryParam, expectedQueryParamValue))
 		})
 
 		It("should create a Predicate with the correct Body", func() {
-			equalsPredicate := actualPredicateAsMap["equals"]
+			containsPredicate := actualPredicateAsMap["contains"]
 
-			Expect(equalsPredicate).To(HaveKeyWithValue("body", expectedBody))
+			Expect(containsPredicate).To(HaveKeyWithValue("body", expectedBody))
 		})
 
 	})
