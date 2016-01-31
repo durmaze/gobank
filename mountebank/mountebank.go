@@ -6,18 +6,28 @@ import (
 	"github.com/parnurzeal/gorequest"
 )
 
-func CreateImposter(imposter Imposter) {
-	gorequest.New().Post("http://localhost:2525/imposters").Send(imposter).End()
+type Client struct{
+	mountebankUri string
+	impostersUri string
 }
 
-func DeleteImposter(imposter Imposter) {
-	imposterUri := "http://localhost:2525/imposters/" + strconv.Itoa(imposter.Port)
+func NewClient(mountebankUri string) *Client {
+	return &Client{
+		mountebankUri: mountebankUri,
+		impostersUri: mountebankUri + "/imposters",
+	}
+}
+
+func (c *Client) CreateImposter(imposter Imposter) {
+	gorequest.New().Post(c.impostersUri).Send(imposter).End()
+}
+
+func (c *Client) DeleteImposter(imposter Imposter) {
+	imposterUri := c.impostersUri + "/" + strconv.Itoa(imposter.Port)
 
 	gorequest.New().Delete(imposterUri).End()
 }
 
-func DeleteAllImposters() {
-	imposterUri := "http://localhost:2525/imposters"
-
-	gorequest.New().Delete(imposterUri).End()
+func (c *Client) DeleteAllImposters() {
+	gorequest.New().Delete(c.impostersUri).End()
 }

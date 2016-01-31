@@ -9,7 +9,7 @@ import (
 	"github.com/parnurzeal/gorequest"
 )
 
-var MountebankBaseUri string
+var MountebankUri string
 
 func TestMountebank(t *testing.T) {
 	RegisterFailHandler(Fail)
@@ -17,11 +17,11 @@ func TestMountebank(t *testing.T) {
 }
 
 var _ = BeforeSuite(func() {
-	MountebankBaseUri = "http://localhost:2525"
+	MountebankUri = "http://localhost:2525"
 
-	Expect(isMountebankRunning(MountebankBaseUri)).To(BeTrue(), "Mountebank is not running")
+	Expect(isMountebankRunning(MountebankUri)).To(BeTrue(), "Mountebank is not running")
 
-	truncateMountebank(MountebankBaseUri)
+	truncateMountebank(MountebankUri)
 })
 
 var _ = AfterSuite(func() {
