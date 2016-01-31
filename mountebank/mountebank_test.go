@@ -2,6 +2,7 @@ package mountebank_test
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/durmaze/gobank/builders"
 	"github.com/durmaze/gobank/mountebank"
@@ -13,28 +14,74 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-var _ = Describe("When create Imposter request is sent to Mountebank", func() {
 
-	BeforeEach(func() {
+var _ = Describe("Mountebank Client", func() {
 
-		expectedResponse := responses.Is().StatusCode(200).Body("{ \"greeting\": \"Hello GoBank\" }").Build()
+	Describe("When createImposter request is sent to Mountebank", func() {
 
-		expectedPredicate1 := predicates.Equals().Path("/test-path").Build()
-		expectedPredicate2 := predicates.Contains().Header("Content-Type", "application/json").Build()
+		var (
+			protocol = "http"
+			port = 4546
+		)
 
-		orPredicate := predicates.Or().Predicates(expectedPredicate1, expectedPredicate2).Build()
-		stub1 := builders.Stub().Responses(expectedResponse).Predicates(orPredicate).Build()
+		BeforeEach(func() {
+				expectedResponse := responses.Is().StatusCode(200).Body("{ \"greeting\": \"Hello GoBank\" }").Build()
 
-		imposterBuilder := builders.NewImposterBuilder()
-		imposter := imposterBuilder.Protocol("http").Port(4546).Stubs(stub1).Build()
+				expectedPredicate1 := predicates.Equals().Path("/test-path").Build()
+				expectedPredicate2 := predicates.Contains().Header("Content-Type", "application/json").Build()
 
-		mountebank.CreateImposter(imposter)
+				orPredicate := predicates.Or().Predicates(expectedPredicate1, expectedPredicate2).Build()
+				stub1 := builders.Stub().Responses(expectedResponse).Predicates(orPredicate).Build()
+
+				imposter := builders.NewImposterBuilder().Protocol(protocol).Port(port).Stubs(stub1).Build()
+
+				mountebank.CreateImposter(imposter)
+			})
+
+			It("should have the Imposter installed on Mountebank", func() {
+				imposterUri := MountebankBaseUri + "/imposters/" + strconv.Itoa(port)
+				resp, _, _ := gorequest.New().Get(imposterUri).End()
+
+				Expect(resp.StatusCode).To(Equal(http.StatusOK))
+			})
 	})
 
-	It("should have the Imposter installed on Mountebank", func() {
-		resp, _, _ := gorequest.New().Get("http://localhost:2525/imposters/4546").End()
+	Describe("When deleteImposter request is sent to Mountebank", func() {
+		
+		var (
+			protocol = "http"
+			port = 5000
+		)
 
-		Expect(resp.StatusCode).To(Equal(http.StatusOK))
+		BeforeEach(func() {
+			imposter := builders.NewImposterBuilder().Protocol(protocol).Port(port).Build()
+			mountebank.CreateImposter(imposter)
+
+			mountebank.DeleteImposter(imposter)
+		})
+
+		It("should delete the installed Imposter at Mountebank", func() {
+			imposterUri := MountebankBaseUri + "/imposters/" + strconv.Itoa(port)
+			resp, _, _ := gorequest.New().Get(imposterUri).End()
+
+			Expect(resp.StatusCode).To(Equal(http.StatusNotFound))
+		})
+
+	})
+
+	Describe("When deleteAllImposter request is sent to Mountebank", func() {
+
+		BeforeEach(func() {
+			mountebank.DeleteAllImposters()
+		})
+
+		It("should delete all the installed Imposters at Mountebank", func() {
+			impostersUri := MountebankBaseUri + "/imposters"
+			resp, _, _ := gorequest.New().Get(impostersUri).End()
+
+			Expect(resp.StatusCode).To(Equal(http.StatusOK))
+		})
+
 	})
 
 })

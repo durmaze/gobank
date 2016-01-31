@@ -1,3 +1,13 @@
 - add tests for JSON output checking
 - restrict builder calls (e.g. imposter.Protocol(..).Protocol(..) should not be allowed)
 - integrate Travis CI on Github
+- add examples
+	- imposter
+	- abstraction
+- add icon
+- update README
+- Mountebank Client
+	- currently mountebank base uri is hard-coded, get it from config.
+	- use Hypermedia links
+	- shape up Mountebank client Api. currently only updates Mountebank, no return values.
+	- update test assertions properly. add count-check for the imposters.

@@ -9,20 +9,31 @@ import (
 	"github.com/parnurzeal/gorequest"
 )
 
+var MountebankBaseUri string
+
 func TestMountebank(t *testing.T) {
 	RegisterFailHandler(Fail)
 	RunSpecs(t, "Mountebank Integration Test Suite")
 }
 
 var _ = BeforeSuite(func() {
-	Expect(isMountebankRunning()).To(BeTrue(), "Mountebank is not running")
+	MountebankBaseUri = "http://localhost:2525"
+
+	Expect(isMountebankRunning(MountebankBaseUri)).To(BeTrue(), "Mountebank is not running")
+
+	truncateMountebank(MountebankBaseUri)
 })
 
 var _ = AfterSuite(func() {
 })
 
-func isMountebankRunning() bool {
-	resp, _, _ := gorequest.New().Get("http://localhost:2525").End()
+func isMountebankRunning(mountebankBaseUri string) bool {
+	resp, _, _ := gorequest.New().Get(mountebankBaseUri).End()
 
 	return resp.StatusCode == http.StatusOK
+}
+
+func truncateMountebank(mountebankBaseUri string) {
+	impostersUri := mountebankBaseUri + "/imposters"
+	gorequest.New().Delete(impostersUri).End()
 }
