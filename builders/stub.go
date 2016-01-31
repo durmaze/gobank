@@ -1,5 +1,8 @@
 package builders
 
+import . "github.com/durmaze/gobank/predicates"
+import . "github.com/durmaze/gobank/responses"
+
 type Stub struct {
 	Responses  []Response  `json:"responses"`
 	Predicates []Predicate `json:"predicates"`

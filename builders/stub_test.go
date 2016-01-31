@@ -1,7 +1,12 @@
 package builders_test
 
 import (
+	"fmt"
+	"log"
+
 	. "github.com/durmaze/gobank/builders"
+	"github.com/durmaze/gobank/predicates"
+	. "github.com/durmaze/gobank/responses"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -48,8 +53,7 @@ var _ = Describe("Stub Builder Tests", func() {
 			actualResponse   Response
 			expectedResponse Response
 
-			actualPredicate   Predicate
-			expectedPredicate Predicate
+			stub Stub
 
 			once sync.Once
 		)
@@ -63,17 +67,13 @@ var _ = Describe("Stub Builder Tests", func() {
 						Body:       "{ \"greeting\": \"Hello GoBank\" }",
 					},
 				}
+				log.Println("expectedResponse", expectedResponse)
+				expectedPredicate := predicates.NewEqualsBuilder().Path("/test-path").Build()
+				log.Println("expectedPredicate", expectedPredicate)
 
-				expectedPredicate = Predicate{
-					Equals: Equals{
-						Path: "/test-path",
-					},
-				}
-
-				stub := NewStubBuilder().AddResponse(expectedResponse).AddPredicate(expectedPredicate).Build()
+				stub = NewStubBuilder().AddResponse(expectedResponse).AddPredicate(expectedPredicate).Build()
 
 				actualResponse = stub.Responses[0]
-				actualPredicate = stub.Predicates[0]
 			})
 		})
 
@@ -85,26 +85,21 @@ var _ = Describe("Stub Builder Tests", func() {
 			Expect(actualResponse.Is.Body).To(Equal(expectedResponse.Is.Body))
 		})
 
+		It("should create a Stub that has one Predicate", func() {
+			Expect(stub.Predicates).To(HaveLen(1))
+		})
+
 		It("should create a Stub that has a Predicate with type \"Equals\"", func() {
-			Expect(actualPredicate.Equals).NotTo(BeNil())
+			Expect(TypeOf(stub.Predicates[0])).To(Equal(TypeOf(predicates.Equals{})))
 		})
-
-		It("should create a Stub that has a Predicate with correct Path condition", func() {
-			Expect(actualPredicate.Equals.Path).To(Equal(expectedPredicate.Equals.Path))
-		})
-
 	})
 
-	Describe("When building a Stub with single Response and multiple Equals predicates", func() {
+	Describe("When building a Stub with single Response and multiple different predicates", func() {
 		var (
 			actualResponse   Response
 			expectedResponse Response
 
-			actualPredicate1    Predicate
-			actualPredicate2    Predicate			
-			expectedPredicate1 Predicate
-			expectedPredicate2 Predicate
-
+			stub Stub
 			once sync.Once
 		)
 
@@ -118,24 +113,13 @@ var _ = Describe("Stub Builder Tests", func() {
 					},
 				}
 
-				expectedPredicate1 = Predicate{
-					Equals: Equals{
-						Path: "/test-path",
-					},
-				}
+				expectedPredicate1 := predicates.NewEqualsBuilder().Path("/test-path").Build()
 
+				expectedPredicate2 := predicates.NewContainsBuilder().Method("POST").Build()
 
-				expectedPredicate2 = Predicate{
-					Equals: Equals{
-						Method: "POST",
-					},
-				}
-
-				stub := NewStubBuilder().AddResponse(expectedResponse).AddPredicate(expectedPredicate1).AddPredicate(expectedPredicate2).Build()
+				stub = NewStubBuilder().AddResponse(expectedResponse).AddPredicate(expectedPredicate1).AddPredicate(expectedPredicate2).Build()
 
 				actualResponse = stub.Responses[0]
-				actualPredicate1 = stub.Predicates[0]
-				actualPredicate2 = stub.Predicates[1]
 			})
 		})
 
@@ -147,19 +131,22 @@ var _ = Describe("Stub Builder Tests", func() {
 			Expect(actualResponse.Is.Body).To(Equal(expectedResponse.Is.Body))
 		})
 
-		It("should create a Stub that has 2 Predicates of type \"Equals\"", func() {
-			Expect(actualPredicate1.Equals).NotTo(BeNil())
-			Expect(actualPredicate2.Equals).NotTo(BeNil())			
+		It("should create a Stub that has two Predicates", func() {
+			Expect(stub.Predicates).To(HaveLen(2))
 		})
 
-		It("should create a Stub that has a Predicate with correct Path condition", func() {
-			Expect(actualPredicate1.Equals.Path).To(Equal(expectedPredicate1.Equals.Path))
+		It("should create a Stub that has a Predicate with type \"Equals\"", func() {
+			Expect(TypeOf(stub.Predicates[0])).To(Equal(TypeOf(predicates.Equals{})))
 		})
 
-		It("should create a Stub that has a Predicate with correct Method condition", func() {
-			Expect(actualPredicate2.Equals.Method).To(Equal(expectedPredicate2.Equals.Method))
+		It("should create a Stub that has a Predicate with type \"Contains\"", func() {
+			Expect(TypeOf(stub.Predicates[1])).To(Equal(TypeOf(predicates.Contains{})))
 		})
 
 	})
 
 })
+
+func TypeOf(instance interface{}) string {
+	return fmt.Sprintf("%T", instance)
+}
