@@ -1,18 +1,21 @@
 package builders
 
-type Imposter struct{
+type Imposter struct {
 	Protocol string `json:"protocol"`
-	Port int `json:"port"`
+	Port     int    `json:"port"`
+	Stubs    []Stub `json:"stubs"`
 }
 
-type imposterBuilder struct{
+type imposterBuilder struct {
 	protocol string
-	port int
+	port     int
+	stubs    []Stub
 }
 
 type ImposterBuilder interface {
 	Protocol(string) ImposterBuilder
 	Port(int) ImposterBuilder
+	Stubs(stubs ...Stub) ImposterBuilder
 	Build() Imposter
 }
 
@@ -28,10 +31,15 @@ func (builder *imposterBuilder) Port(port int) ImposterBuilder {
 	return builder
 }
 
+func (builder *imposterBuilder) Stubs(stubs ...Stub) ImposterBuilder {
+	builder.stubs = stubs
+	return builder
+}
+
 func (builder *imposterBuilder) Build() Imposter {
 	return Imposter{
 		Protocol: builder.protocol,
-		Port: builder.port,
+		Port:     builder.port,
 	}
 }
 

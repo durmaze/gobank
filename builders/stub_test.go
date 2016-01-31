@@ -33,7 +33,7 @@ var _ = Describe("Stub Builder Tests", func() {
 					},
 				}
 
-				stub := NewStubBuilder().AddResponse(expectedResponse).Build()
+				stub := NewStubBuilder().Responses(expectedResponse).Build()
 
 				actualResponse = stub.Responses[0]
 			})
@@ -69,7 +69,7 @@ var _ = Describe("Stub Builder Tests", func() {
 				}
 				expectedPredicate := predicates.NewEqualsBuilder().Path("/test-path").Build()
 
-				stub = NewStubBuilder().AddResponse(expectedResponse).AddPredicate(expectedPredicate).Build()
+				stub = NewStubBuilder().Responses(expectedResponse).Predicates(expectedPredicate).Build()
 
 				actualResponse = stub.Responses[0]
 
@@ -118,7 +118,7 @@ var _ = Describe("Stub Builder Tests", func() {
 
 				expectedPredicate2 := predicates.NewContainsBuilder().Method("POST").Build()
 
-				stub = NewStubBuilder().AddResponse(expectedResponse).AddPredicate(expectedPredicate1).AddPredicate(expectedPredicate2).Build()
+				stub = NewStubBuilder().Responses(expectedResponse).Predicates(expectedPredicate1, expectedPredicate2).Build()
 
 				actualResponse = stub.Responses[0]
 			})

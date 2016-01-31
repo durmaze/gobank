@@ -14,20 +14,20 @@ type stubBuilder struct {
 }
 
 type StubBuilder interface {
-	AddResponse(Response) StubBuilder
-	AddPredicate(Predicate) StubBuilder
+	Responses(...Response) StubBuilder
+	Predicates(...Predicate) StubBuilder
 
 	Build() Stub
 }
 
-func (builder *stubBuilder) AddResponse(response Response) StubBuilder {
-	builder.responses = append(builder.responses, response)
+func (builder *stubBuilder) Responses(responses ...Response) StubBuilder {
+	builder.responses = responses
 
 	return builder
 }
 
-func (builder *stubBuilder) AddPredicate(predicate Predicate) StubBuilder {
-	builder.predicates = append(builder.predicates, predicate)
+func (builder *stubBuilder) Predicates(predicates ...Predicate) StubBuilder {
+	builder.predicates = predicates
 
 	return builder
 }
