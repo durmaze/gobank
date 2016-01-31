@@ -2,7 +2,6 @@ package predicates_test
 
 import (
 	"encoding/json"
-	"log"
 	"sync"
 
 	"github.com/durmaze/gobank/predicates"
@@ -24,18 +23,13 @@ var _ = Describe("Or Predicate Builder Tests", func() {
 		)
 		BeforeEach(func() {
 			once.Do(func() {
-				actualPredicate := predicates.NewOrBuilder().AddPredicate(predicate1).AddPredicate(predicate2).AddPredicate(predicate3).Build()
-				log.Println("actualPredicate", actualPredicate)
+				actualPredicate := predicates.Or().Predicates(predicate1, predicate2, predicate3).Build()
 
-				jsonBytes, err := json.Marshal(actualPredicate)
-				log.Println("jsonBytes", string(jsonBytes))
-				log.Println("err", err)
+				jsonBytes, _ := json.Marshal(actualPredicate)
 
 				actualPredicateAsMap = map[string]interface{}{}
 				json.Unmarshal(jsonBytes, &actualPredicateAsMap)
 
-				log.Println("predicateMap", actualPredicateAsMap)
-				log.Println("orPredicate", actualPredicateAsMap["or"])
 			})
 		})
 

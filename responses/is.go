@@ -11,7 +11,7 @@ type isResponse struct {
 }
 
 func (i is) Type() string {
-	return "Is"
+	return "is"
 }
 
 type IsBuilder struct {

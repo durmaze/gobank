@@ -12,12 +12,12 @@ func (p or) Type() string {
 	return "or"
 }
 
-func NewOrBuilder() *OrBuilder {
+func Or() *OrBuilder {
 	return &OrBuilder{or: or{}}
 }
 
-func (builder *OrBuilder) AddPredicate(predicate Predicate) *OrBuilder {
-	builder.or.Predicates = append(builder.or.Predicates, predicate)
+func (builder *OrBuilder) Predicates(predicates ...Predicate) *OrBuilder {
+	builder.or.Predicates = predicates
 
 	return builder
 }

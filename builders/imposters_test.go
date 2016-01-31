@@ -1,9 +1,9 @@
 package builders_test
 
 import (
+	"encoding/json"
+
 	. "github.com/durmaze/gobank/builders"
-	"github.com/durmaze/gobank/predicates"
-	"github.com/durmaze/gobank/responses"
 
 	"sync"
 
@@ -13,32 +13,46 @@ import (
 
 var _ = Describe("Imposter Builder Tests", func() {
 
-	Describe("When building an imposter with protocol, port and multiple stubs", func() {
+	Describe("When building an imposter with protocol, port and a single stub", func() {
 		var (
-			imposter Imposter
-			once     sync.Once
+			actualImposterAsMap map[string]interface{}
+
+			expectedProtocol = "http"
+			expectedPort     = 4546
+			expectedStub     = Stub().Build()
+
+			once sync.Once
 		)
 
 		BeforeEach(func() {
 			once.Do(func() {
-				response := responses.Is().StatusCode(200).Body("{}").Build()
+				actualImposter := NewImposterBuilder().Protocol(expectedProtocol).Port(expectedPort).Stubs(expectedStub).Build()
 
-				equals := predicates.Equals().Path("/test-path").Build()
-				contains := predicates.Contains().Header("Content-Type", "application/json").Build()
-
-				stub := NewStubBuilder().Responses(response).Predicates(equals, contains).Build()
-
-				imposter = NewImposterBuilder().Protocol("http").Port(4546).Stubs(stub).Build()
+				jsonBytes, _ := json.Marshal(actualImposter)
+				actualImposterAsMap = map[string]interface{}{}
+				json.Unmarshal(jsonBytes, &actualImposterAsMap)
 			})
 		})
 
-		It("should create the Imposter with the specified protocol", func() {
-			Expect(imposter.Protocol).To(Equal("http"))
+		It("should create the Imposter with the correct Protocol", func() {
+			Expect(actualImposterAsMap).To(HaveKeyWithValue("protocol", expectedProtocol))
 		})
 
-		It("should create the Imposter on the specified port", func() {
-			Expect(imposter.Port).To(Equal(4546))
+		It("should create the Imposter with the correct Port", func() {
+			// golang converts numbers to float64 when unmarshalling json to map[string]interface{}
+			Expect(actualImposterAsMap).To(HaveKeyWithValue("port", float64(expectedPort)))
 		})
+
+		It("should create the Imposter with Stubs", func() {
+			Expect(actualImposterAsMap).To(HaveKey("stubs"))
+		})
+
+		It("should create the Imposter with one Stub", func() {
+			stubs := actualImposterAsMap["stubs"]
+
+			Expect(stubs).To(HaveLen(1))
+		})
+
 	})
 
 })

@@ -3,46 +3,41 @@ package builders
 type Imposter struct {
 	Protocol string `json:"protocol"`
 	Port     int    `json:"port"`
-	Stubs    []Stub `json:"stubs"`
+	Stubs    []stub `json:"stubs"`
 }
 
-type imposterBuilder struct {
+type ImposterBuilder struct {
 	protocol string
 	port     int
-	stubs    []Stub
+	stubs    []stub
 }
 
-type ImposterBuilder interface {
-	Protocol(string) ImposterBuilder
-	Port(int) ImposterBuilder
-	Stubs(stubs ...Stub) ImposterBuilder
-	Build() Imposter
-}
-
-func (builder *imposterBuilder) Protocol(protocol string) ImposterBuilder {
+func (builder *ImposterBuilder) Protocol(protocol string) *ImposterBuilder {
 	builder.protocol = protocol
 
 	return builder
 }
 
-func (builder *imposterBuilder) Port(port int) ImposterBuilder {
+func (builder *ImposterBuilder) Port(port int) *ImposterBuilder {
 	builder.port = port
 
 	return builder
 }
 
-func (builder *imposterBuilder) Stubs(stubs ...Stub) ImposterBuilder {
+func (builder *ImposterBuilder) Stubs(stubs ...stub) *ImposterBuilder {
 	builder.stubs = stubs
+
 	return builder
 }
 
-func (builder *imposterBuilder) Build() Imposter {
+func (builder *ImposterBuilder) Build() Imposter {
 	return Imposter{
 		Protocol: builder.protocol,
 		Port:     builder.port,
+		Stubs:    builder.stubs,
 	}
 }
 
-func NewImposterBuilder() ImposterBuilder {
-	return &imposterBuilder{}
+func NewImposterBuilder() *ImposterBuilder {
+	return &ImposterBuilder{}
 }

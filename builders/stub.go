@@ -3,7 +3,7 @@ package builders
 import . "github.com/durmaze/gobank/predicates"
 import . "github.com/durmaze/gobank/responses"
 
-type Stub struct {
+type stub struct {
 	Responses  []Response  `json:"responses"`
 	Predicates []Predicate `json:"predicates"`
 }
@@ -17,7 +17,7 @@ type StubBuilder interface {
 	Responses(...Response) StubBuilder
 	Predicates(...Predicate) StubBuilder
 
-	Build() Stub
+	Build() stub
 }
 
 func (builder *stubBuilder) Responses(responses ...Response) StubBuilder {
@@ -32,13 +32,13 @@ func (builder *stubBuilder) Predicates(predicates ...Predicate) StubBuilder {
 	return builder
 }
 
-func (builder *stubBuilder) Build() Stub {
-	return Stub{
+func (builder *stubBuilder) Build() stub {
+	return stub{
 		Responses:  builder.responses,
 		Predicates: builder.predicates,
 	}
 }
 
-func NewStubBuilder() StubBuilder {
+func Stub() StubBuilder {
 	return &stubBuilder{}
 }

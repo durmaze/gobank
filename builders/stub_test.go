@@ -1,6 +1,8 @@
 package builders_test
 
 import (
+	"encoding/json"
+
 	. "github.com/durmaze/gobank/builders"
 	"github.com/durmaze/gobank/predicates"
 	"github.com/durmaze/gobank/responses"
@@ -15,66 +17,33 @@ var _ = Describe("Stub Builder Tests", func() {
 
 	Describe("When building a Stub with single Response", func() {
 		var (
-			stub Stub
-			once sync.Once
+			actualStubAsMap map[string]interface{}
+			once            sync.Once
 		)
 
 		BeforeEach(func() {
 			once.Do(func() {
 
 				expectedResponse := responses.Is().StatusCode(200).Body("{ \"greeting\": \"Hello GoBank\" }").Build()
-				stub = NewStubBuilder().Responses(expectedResponse).Build()
+				actualStub := Stub().Responses(expectedResponse).Build()
 
+				jsonBytes, _ := json.Marshal(actualStub)
+				actualStubAsMap = map[string]interface{}{}
+				json.Unmarshal(jsonBytes, &actualStubAsMap)
 			})
 		})
 
-		It("should create a Stub that has one Predicate", func() {
-			Expect(stub.Responses).To(HaveLen(1))
-		})
+		It("should create a Stub that has one Response", func() {
+			responses := actualStubAsMap["responses"]
 
-		It("should create a Stub that has a Predicate with type \"Equals\"", func() {
-			Expect(stub.Responses[0].Type()).To(Equal(responses.Is().Build().Type()))
+			Expect(responses).To(HaveLen(1))
 		})
 	})
 
-	Describe("When building a Stub with single Response and a single Equals predicate", func() {
+	Describe("When building a Stub with single Response and multiple, different Predicates", func() {
 		var (
-			stub Stub
-
-			once sync.Once
-		)
-
-		BeforeEach(func() {
-			once.Do(func() {
-
-				expectedResponse := responses.Is().StatusCode(200).Body("{ \"greeting\": \"Hello GoBank\" }").Build()
-				expectedPredicate := predicates.Equals().Path("/test-path").Build()
-
-				stub = NewStubBuilder().Responses(expectedResponse).Predicates(expectedPredicate).Build()
-			})
-		})
-
-		It("should create a Stub that has one Predicate", func() {
-			Expect(stub.Responses).To(HaveLen(1))
-		})
-
-		It("should create a Stub that has a Predicate with type \"Equals\"", func() {
-			Expect(stub.Responses[0].Type()).To(Equal(responses.Is().Build().Type()))
-		})
-
-		It("should create a Stub that has one Predicate", func() {
-			Expect(stub.Predicates).To(HaveLen(1))
-		})
-
-		It("should create a Stub that has a Predicate with type \"Equals\"", func() {
-			Expect(stub.Predicates[0].Type()).To(Equal(predicates.Equals().Build().Type()))
-		})
-	})
-
-	Describe("When building a Stub with single Response and multiple different predicates", func() {
-		var (
-			stub Stub
-			once sync.Once
+			actualStubAsMap map[string]interface{}
+			once            sync.Once
 		)
 
 		BeforeEach(func() {
@@ -85,29 +54,42 @@ var _ = Describe("Stub Builder Tests", func() {
 				expectedPredicate1 := predicates.Equals().Path("/test-path").Build()
 				expectedPredicate2 := predicates.Contains().Method("POST").Build()
 
-				stub = NewStubBuilder().Responses(expectedResponse).Predicates(expectedPredicate1, expectedPredicate2).Build()
+				actualStub := Stub().Responses(expectedResponse).Predicates(expectedPredicate1, expectedPredicate2).Build()
 
+				jsonBytes, _ := json.Marshal(actualStub)
+				actualStubAsMap = map[string]interface{}{}
+				json.Unmarshal(jsonBytes, &actualStubAsMap)
 			})
 		})
 
-		It("should create a Stub that has one Predicate", func() {
-			Expect(stub.Responses).To(HaveLen(1))
+		It("should create a Stub that has one Response", func() {
+			responses := actualStubAsMap["responses"]
+
+			Expect(responses).To(HaveLen(1))
 		})
 
-		It("should create a Stub that has a Predicate with type \"Equals\"", func() {
-			Expect(stub.Responses[0].Type()).To(Equal(responses.Is().Build().Type()))
+		It("should create a Stub that has \"Is\" Response", func() {
+			resps := actualStubAsMap["responses"].([]interface{})
+
+			Expect(resps[0]).To(HaveKey(responses.Is().Build().Type()))
 		})
 
 		It("should create a Stub that has two Predicates", func() {
-			Expect(stub.Predicates).To(HaveLen(2))
+			predicates := actualStubAsMap["predicates"]
+
+			Expect(predicates).To(HaveLen(2))
 		})
 
-		It("should create a Stub that has a Predicate with type \"Equals\"", func() {
-			Expect(stub.Predicates[0].Type()).To(Equal(predicates.Equals().Build().Type()))
+		It("should create a Stub that has an \"Equals\" Predicate", func() {
+			preds := actualStubAsMap["predicates"].([]interface{})
+
+			Expect(preds[0]).To(HaveKey(predicates.Equals().Build().Type()))
 		})
 
-		It("should create a Stub that has a Predicate with type \"Contains\"", func() {
-			Expect(stub.Predicates[1].Type()).To(Equal(predicates.Contains().Build().Type()))
+		It("should create a Stub that has a \"Contains\" Predicate", func() {
+			preds := actualStubAsMap["predicates"].([]interface{})
+
+			Expect(preds[1]).To(HaveKey(predicates.Contains().Build().Type()))
 		})
 
 	})
