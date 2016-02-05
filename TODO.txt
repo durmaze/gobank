@@ -1,7 +1,7 @@
 - add tests for JSON output checking
 - refactor json to map conversion used in tests
 - restrict builder calls (e.g. imposter.Protocol(..).Protocol(..) should not be allowed)
-- integrate Travis CI on Github
+- integrate Travis CI on Github (alper)
 - add examples
 	- imposter
 	- abstraction
@@ -12,3 +12,8 @@
 	- use Hypermedia links
 	- shape up Mountebank client Api. currently only updates Mountebank, no return values.
 	- update test assertions properly. add count-check for the imposters.
+	- add get, getAll imposters
+- add all predicates (erkan)
+- add all response types and response behaviors (alper)
+- switch to JsonPath
+- add JsonPath support to Mountebank as predicate parameter - pull request
