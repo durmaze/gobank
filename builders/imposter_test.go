@@ -13,12 +13,13 @@ import (
 
 var _ = Describe("Imposter Builder Tests", func() {
 
-	Describe("When building an imposter with protocol, port and a single stub", func() {
+	Describe("When building an imposter with protocol, port, name and a single stub", func() {
 		var (
 			actualImposterAsMap map[string]interface{}
 
 			expectedProtocol = "http"
 			expectedPort     = 4546
+			expectedName     = "TestImposter"
 			expectedStub     = Stub().Build()
 
 			once sync.Once
@@ -26,7 +27,7 @@ var _ = Describe("Imposter Builder Tests", func() {
 
 		BeforeEach(func() {
 			once.Do(func() {
-				actualImposter := NewImposterBuilder().Protocol(expectedProtocol).Port(expectedPort).Stubs(expectedStub).Build()
+				actualImposter := NewImposterBuilder().Protocol(expectedProtocol).Port(expectedPort).Name(expectedName).Stubs(expectedStub).Build()
 
 				jsonBytes, _ := json.Marshal(actualImposter)
 				actualImposterAsMap = map[string]interface{}{}
@@ -41,6 +42,10 @@ var _ = Describe("Imposter Builder Tests", func() {
 		It("should create the Imposter with the correct Port", func() {
 			// golang converts numbers to float64 when unmarshalling json to map[string]interface{}
 			Expect(actualImposterAsMap).To(HaveKeyWithValue("port", float64(expectedPort)))
+		})
+
+		It("should create the Imposter with the correct Name", func() {
+			Expect(actualImposterAsMap).To(HaveKeyWithValue("name", expectedName))
 		})
 
 		It("should create the Imposter with Stubs", func() {

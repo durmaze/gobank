@@ -32,7 +32,7 @@ var _ = Describe("Mountebank Client", func() {
 
 			stub := builders.Stub().Responses(okResponse).Predicates(or).Build()
 
-			imposter := builders.NewImposterBuilder().Protocol(protocol).Port(port).Stubs(stub).Build()
+			imposter := builders.NewImposterBuilder().Protocol(protocol).Port(port).Name("Greeting Imposter").Stubs(stub).Build()
 
 			client := mountebank.NewClient(MountebankUri)
 			client.CreateImposter(imposter)
