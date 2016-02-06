@@ -24,3 +24,7 @@ _testmain.go
 *.prof
 
 tags
+
+# OS specific files 
+.DS_Store
+
