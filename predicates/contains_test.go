@@ -10,7 +10,7 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-var _ = Describe("Predicate Builder Tests", func() {
+var _ = Describe("Contains Predicate Builder Tests", func() {
 
 	Describe("When building a Predicate of type \"Contains\"", func() {
 
