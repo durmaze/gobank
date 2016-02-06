@@ -4,6 +4,7 @@ type Imposter struct {
 	Protocol string `json:"protocol"`
 	Port     int    `json:"port,omitempty"`
 	Name     string `json:"name,omitempty"`
+	Mode     string `json:"mode,omitempty"`
 	Stubs    []stub `json:"stubs,omitempty"`
 }
 
@@ -11,6 +12,7 @@ type ImposterBuilder struct {
 	protocol string
 	port     int
 	name     string
+	mode     string
 	stubs    []stub
 }
 
@@ -32,6 +34,12 @@ func (builder *ImposterBuilder) Name(name string) *ImposterBuilder {
 	return builder
 }
 
+func (builder *ImposterBuilder) Mode(mode string) *ImposterBuilder {
+	builder.mode = mode
+
+	return builder
+}
+
 func (builder *ImposterBuilder) Stubs(stubs ...stub) *ImposterBuilder {
 	builder.stubs = stubs
 
@@ -43,6 +51,7 @@ func (builder *ImposterBuilder) Build() Imposter {
 		Protocol: builder.protocol,
 		Port:     builder.port,
 		Name:     builder.name,
+		Mode:     builder.mode,
 		Stubs:    builder.stubs,
 	}
 }

@@ -13,13 +13,14 @@ import (
 
 var _ = Describe("Imposter Builder Tests", func() {
 
-	Describe("When building an imposter with protocol, port, name and a single stub", func() {
+	Describe("When building an imposter with protocol, port, name, mode and a single stub", func() {
 		var (
 			actualImposterAsMap map[string]interface{}
 
 			expectedProtocol = "http"
 			expectedPort     = 4546
 			expectedName     = "TestImposter"
+			expectedMode     = "text"
 			expectedStub     = Stub().Build()
 
 			once sync.Once
@@ -27,7 +28,7 @@ var _ = Describe("Imposter Builder Tests", func() {
 
 		BeforeEach(func() {
 			once.Do(func() {
-				actualImposter := NewImposterBuilder().Protocol(expectedProtocol).Port(expectedPort).Name(expectedName).Stubs(expectedStub).Build()
+				actualImposter := NewImposterBuilder().Protocol(expectedProtocol).Port(expectedPort).Name(expectedName).Mode(expectedMode).Stubs(expectedStub).Build()
 
 				jsonBytes, _ := json.Marshal(actualImposter)
 				actualImposterAsMap = map[string]interface{}{}
@@ -46,6 +47,10 @@ var _ = Describe("Imposter Builder Tests", func() {
 
 		It("should create the Imposter with the correct Name", func() {
 			Expect(actualImposterAsMap).To(HaveKeyWithValue("name", expectedName))
+		})
+
+		It("should create the Imposter with the correct Mode", func() {
+			Expect(actualImposterAsMap).To(HaveKeyWithValue("mode", expectedMode))
 		})
 
 		It("should create the Imposter with Stubs", func() {

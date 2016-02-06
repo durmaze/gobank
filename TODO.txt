@@ -17,3 +17,4 @@
 - add all response types and response behaviors (alper)
 - switch to JsonPath
 - add JsonPath support to Mountebank as predicate parameter - pull request
+- mode at Imposter creation can only be either "binary" or "text". currently, it can take any string value
