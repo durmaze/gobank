@@ -1,6 +1,7 @@
 package mountebank_test
 
 import (
+	"log"
 	"net/http"
 	"strconv"
 
@@ -28,7 +29,8 @@ var _ = Describe("Mountebank Client", func() {
 
 			equals := predicates.Equals().Path("/test-path").Build()
 			contains := predicates.Contains().Header("Accept", "application/json").Build()
-			or := predicates.Or().Predicates(equals, contains).Build()
+			exists := predicates.Exists().Method(true).Query("q", false).Body(false).Build()
+			or := predicates.Or().Predicates(equals, contains, exists).Build()
 
 			stub := builders.Stub().Responses(okResponse).Predicates(or).Build()
 
@@ -40,8 +42,9 @@ var _ = Describe("Mountebank Client", func() {
 
 		It("should have the Imposter installed on Mountebank", func() {
 			imposterUri := MountebankUri + "/imposters/" + strconv.Itoa(port)
-			resp, _, _ := gorequest.New().Get(imposterUri).End()
+			resp, body, _ := gorequest.New().Get(imposterUri).End()
 
+			log.Println(body)
 			Expect(resp.StatusCode).To(Equal(http.StatusOK))
 		})
 	})
