@@ -1,11 +1,11 @@
 package builders
 
 type Imposter struct {
-	Protocol string `json:"protocol"`
-	Port     int    `json:"port,omitempty"`
-	Name     string `json:"name,omitempty"`
-	Mode     string `json:"mode,omitempty"`
-	Stubs    []stub `json:"stubs,omitempty"`
+	Protocol string        `json:"protocol"`
+	Port     int           `json:"port,omitempty"`
+	Name     string        `json:"name,omitempty"`
+	Mode     string        `json:"mode,omitempty"`
+	Stubs    []StubElement `json:"stubs,omitempty"`
 }
 
 type ImposterBuilder struct {
@@ -13,7 +13,7 @@ type ImposterBuilder struct {
 	port     int
 	name     string
 	mode     string
-	stubs    []stub
+	stubs    []StubElement
 }
 
 func (builder *ImposterBuilder) Protocol(protocol string) *ImposterBuilder {
@@ -40,7 +40,7 @@ func (builder *ImposterBuilder) Mode(mode string) *ImposterBuilder {
 	return builder
 }
 
-func (builder *ImposterBuilder) Stubs(stubs ...stub) *ImposterBuilder {
+func (builder *ImposterBuilder) Stubs(stubs ...StubElement) *ImposterBuilder {
 	builder.stubs = stubs
 
 	return builder
