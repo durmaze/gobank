@@ -2,7 +2,6 @@ package responses_test
 
 import (
 	"encoding/json"
-	"log"
 	"sync"
 
 	"github.com/durmaze/gobank/responses"
@@ -30,8 +29,6 @@ var _ = Describe("Response Builder Tests", func() {
 					Build()
 
 				jsonBytes, _ := json.Marshal(actualResponse)
-				log.Println(string(jsonBytes))
-
 				actualResponseAsMap = map[string]interface{}{}
 				json.Unmarshal(jsonBytes, &actualResponseAsMap)
 			})

@@ -63,6 +63,141 @@ var _ = Describe("Response Builder Tests", func() {
 
 			Expect(isResponse).To(HaveKeyWithValue("body", expectedBody))
 		})
+
+		It("should not have 'behavior' field in marshalled json", func() {
+			Expect(actualResponseAsMap).NotTo(HaveKey("_behavior"))
+		})
+	})
+
+	Describe("When building a Response of type \"Is\" with behavior", func() {
+
+		var (
+			actualResponseAsMap map[string]interface{}
+			once                sync.Once
+		)
+
+		const (
+			expectedWaitTime = 500
+			expectedBody     = "{ \"greeting\": \"Hello GoBank\" }"
+		)
+
+		BeforeEach(func() {
+			once.Do(func() {
+				actualResponse := responses.Is().Body(expectedBody).Wait(expectedWaitTime).Build()
+
+				jsonBytes, _ := json.Marshal(actualResponse)
+				actualResponseAsMap = map[string]interface{}{}
+				json.Unmarshal(jsonBytes, &actualResponseAsMap)
+			})
+		})
+
+		It("should create an \"Is\" response", func() {
+			Expect(actualResponseAsMap).To(HaveKey("is"))
+		})
+
+		It("should create a Response with the correct Body", func() {
+			isResponse := actualResponseAsMap["is"]
+
+			Expect(isResponse).To(HaveKeyWithValue("body", expectedBody))
+		})
+
+		It("should have 'behavior' field in marshalled json", func() {
+			Expect(actualResponseAsMap).To(HaveKey("_behavior"))
+		})
+
+		It("should have 'wait' field in as 'behavior' in marshalled json", func() {
+			behavior := actualResponseAsMap["_behavior"]
+			Expect(behavior).To(HaveKeyWithValue("wait", float64(expectedWaitTime)))
+		})
+
+		It("should not have 'decorate' field in as 'behavior' in marshalled json", func() {
+			behavior := actualResponseAsMap["_behavior"]
+			Expect(behavior).NotTo(HaveKey("decorate"))
+		})
+	})
+
+	Describe("When building a Response of type \"Is\" with behavior", func() {
+
+		var (
+			actualResponseAsMap map[string]interface{}
+			once                sync.Once
+		)
+
+		const (
+			expectedWaitTime = 500
+			expectedBody     = "{ \"greeting\": \"Hello GoBank\" }"
+		)
+
+		BeforeEach(func() {
+			once.Do(func() {
+				actualResponse := responses.Is().Body(expectedBody).Decorate("function(){}").Build()
+
+				jsonBytes, _ := json.Marshal(actualResponse)
+				actualResponseAsMap = map[string]interface{}{}
+				json.Unmarshal(jsonBytes, &actualResponseAsMap)
+			})
+		})
+
+		It("should create an \"Is\" response", func() {
+			Expect(actualResponseAsMap).To(HaveKey("is"))
+		})
+
+		It("should create a Response with the correct Body", func() {
+			isResponse := actualResponseAsMap["is"]
+
+			Expect(isResponse).To(HaveKeyWithValue("body", expectedBody))
+		})
+
+		It("should have 'behavior' field in marshalled json", func() {
+			Expect(actualResponseAsMap).To(HaveKey("_behavior"))
+		})
+
+		It("should not have 'wait' field in as 'behavior' in marshalled json", func() {
+			behavior := actualResponseAsMap["_behavior"]
+			Expect(behavior).NotTo(HaveKey("wait"))
+		})
+
+		It("should have 'decorate' field in as 'behavior' in marshalled json", func() {
+			behavior := actualResponseAsMap["_behavior"]
+			Expect(behavior).To(HaveKey("decorate"))
+		})
+	})
+
+	Describe("When building a Response of type \"Is\" with behavior", func() {
+
+		var (
+			actualResponseAsMap map[string]interface{}
+			once                sync.Once
+		)
+
+		const (
+			expectedBody = "{ \"greeting\": \"Hello GoBank\" }"
+		)
+
+		BeforeEach(func() {
+			once.Do(func() {
+				actualResponse := responses.Is().Body(expectedBody).Wait(0).Build()
+
+				jsonBytes, _ := json.Marshal(actualResponse)
+				actualResponseAsMap = map[string]interface{}{}
+				json.Unmarshal(jsonBytes, &actualResponseAsMap)
+			})
+		})
+
+		It("should create an \"Is\" response", func() {
+			Expect(actualResponseAsMap).To(HaveKey("is"))
+		})
+
+		It("should create a Response with the correct Body", func() {
+			isResponse := actualResponseAsMap["is"]
+
+			Expect(isResponse).To(HaveKeyWithValue("body", expectedBody))
+		})
+
+		It("should not have 'behavior' field in marshalled json", func() {
+			Expect(actualResponseAsMap).NotTo(HaveKey("_behavior"))
+		})
+
 	})
 
 })

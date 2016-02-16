@@ -1,21 +1,24 @@
 package responses
 
-type is struct {
-	Is isResponse `json:"is"`
+type IsElement struct {
+	Is       *IsResponse `json:"is"`
+	Behavior *Behavior   `json:"_behavior,omitempty"`
 }
 
-type isResponse struct {
+type IsResponse struct {
 	StatusCode int               `json:"statusCode,omitempty"`
 	Headers    map[string]string `json:"headers,omitempty"`
 	Body       string            `json:"body,omitempty"`
 }
 
-func (i is) Type() string {
+func (i IsElement) Type() string {
 	return "is"
 }
 
 type IsBuilder struct {
-	is isResponse
+	is         *IsResponse
+	waitTime   int
+	decorateFn string
 }
 
 func (builder *IsBuilder) StatusCode(statusCode int) *IsBuilder {
@@ -37,10 +40,26 @@ func (builder *IsBuilder) Body(body string) *IsBuilder {
 	return builder
 }
 
-func (builder *IsBuilder) Build() is {
-	return is{Is: builder.is}
+func (builder *IsBuilder) Wait(waitTime int) *IsBuilder {
+	if waitTime > 0 {
+		builder.waitTime = waitTime
+	}
+	return builder
+}
+
+func (builder *IsBuilder) Decorate(decorateFn string) *IsBuilder {
+	builder.decorateFn = decorateFn
+	return builder
+}
+
+func (builder *IsBuilder) Build() IsElement {
+	is := IsElement{Is: builder.is}
+	if builder.waitTime > 0 || len(builder.decorateFn) > 0 {
+		is.Behavior = &Behavior{builder.waitTime, builder.decorateFn}
+	}
+	return is
 }
 
 func Is() *IsBuilder {
-	return &IsBuilder{is: isResponse{}}
+	return &IsBuilder{is: &IsResponse{}}
 }

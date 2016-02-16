@@ -28,3 +28,5 @@ tags
 # OS specific files 
 .DS_Store
 
+# unnecessary build artefacts
+*.coverprofile
