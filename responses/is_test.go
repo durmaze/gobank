@@ -65,7 +65,7 @@ var _ = Describe("Response Builder Tests", func() {
 		})
 
 		It("should not have 'behavior' field in marshalled json", func() {
-			Expect(actualResponseAsMap).NotTo(HaveKey("_behavior"))
+			Expect(actualResponseAsMap).NotTo(HaveKey("_behaviors"))
 		})
 	})
 
@@ -102,16 +102,16 @@ var _ = Describe("Response Builder Tests", func() {
 		})
 
 		It("should have 'behavior' field in marshalled json", func() {
-			Expect(actualResponseAsMap).To(HaveKey("_behavior"))
+			Expect(actualResponseAsMap).To(HaveKey("_behaviors"))
 		})
 
 		It("should have 'wait' field in as 'behavior' in marshalled json", func() {
-			behavior := actualResponseAsMap["_behavior"]
+			behavior := actualResponseAsMap["_behaviors"]
 			Expect(behavior).To(HaveKeyWithValue("wait", float64(expectedWaitTime)))
 		})
 
 		It("should not have 'decorate' field in as 'behavior' in marshalled json", func() {
-			behavior := actualResponseAsMap["_behavior"]
+			behavior := actualResponseAsMap["_behaviors"]
 			Expect(behavior).NotTo(HaveKey("decorate"))
 		})
 	})
@@ -149,16 +149,16 @@ var _ = Describe("Response Builder Tests", func() {
 		})
 
 		It("should have 'behavior' field in marshalled json", func() {
-			Expect(actualResponseAsMap).To(HaveKey("_behavior"))
+			Expect(actualResponseAsMap).To(HaveKey("_behaviors"))
 		})
 
 		It("should not have 'wait' field in as 'behavior' in marshalled json", func() {
-			behavior := actualResponseAsMap["_behavior"]
+			behavior := actualResponseAsMap["_behaviors"]
 			Expect(behavior).NotTo(HaveKey("wait"))
 		})
 
 		It("should have 'decorate' field in as 'behavior' in marshalled json", func() {
-			behavior := actualResponseAsMap["_behavior"]
+			behavior := actualResponseAsMap["_behaviors"]
 			Expect(behavior).To(HaveKey("decorate"))
 		})
 	})

@@ -2,7 +2,7 @@ package responses
 
 type IsElement struct {
 	Is       *IsResponse `json:"is"`
-	Behavior *Behavior   `json:"_behavior,omitempty"`
+	Behavior *Behavior   `json:"_behaviors,omitempty"`
 }
 
 type IsResponse struct {
