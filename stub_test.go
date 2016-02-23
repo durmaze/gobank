@@ -1,9 +1,9 @@
-package builders_test
+package gobank_test
 
 import (
 	"encoding/json"
 
-	. "github.com/durmaze/gobank/builders"
+	"github.com/durmaze/gobank"
 	"github.com/durmaze/gobank/predicates"
 	"github.com/durmaze/gobank/responses"
 
@@ -25,7 +25,7 @@ var _ = Describe("Stub Builder Tests", func() {
 			once.Do(func() {
 
 				expectedResponse := responses.Is().StatusCode(200).Body("{ \"greeting\": \"Hello GoBank\" }").Build()
-				actualStub := Stub().Responses(expectedResponse).Build()
+				actualStub := gobank.Stub().Responses(expectedResponse).Build()
 
 				jsonBytes, _ := json.Marshal(actualStub)
 				actualStubAsMap = map[string]interface{}{}
@@ -54,7 +54,7 @@ var _ = Describe("Stub Builder Tests", func() {
 				expectedPredicate1 := predicates.Equals().Path("/test-path").Build()
 				expectedPredicate2 := predicates.Contains().Method("POST").Build()
 
-				actualStub := Stub().Responses(expectedResponse).Predicates(expectedPredicate1, expectedPredicate2).Build()
+				actualStub := gobank.Stub().Responses(expectedResponse).Predicates(expectedPredicate1, expectedPredicate2).Build()
 
 				jsonBytes, _ := json.Marshal(actualStub)
 				actualStubAsMap = map[string]interface{}{}

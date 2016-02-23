@@ -1,12 +1,11 @@
-package builders_test
+package gobank_test
 
 import (
 	"encoding/json"
 
-	. "github.com/durmaze/gobank/builders"
-
 	"sync"
 
+	"github.com/durmaze/gobank"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
@@ -21,14 +20,14 @@ var _ = Describe("Imposter Builder Tests", func() {
 			expectedPort     = 4546
 			expectedName     = "TestImposter"
 			expectedMode     = "text"
-			expectedStub     = Stub().Build()
+			expectedStub     = gobank.Stub().Build()
 
 			once sync.Once
 		)
 
 		BeforeEach(func() {
 			once.Do(func() {
-				actualImposter := NewImposterBuilder().Protocol(expectedProtocol).Port(expectedPort).Name(expectedName).Mode(expectedMode).Stubs(expectedStub).Build()
+				actualImposter := gobank.NewImposterBuilder().Protocol(expectedProtocol).Port(expectedPort).Name(expectedName).Mode(expectedMode).Stubs(expectedStub).Build()
 
 				jsonBytes, _ := json.Marshal(actualImposter)
 				actualImposterAsMap = map[string]interface{}{}

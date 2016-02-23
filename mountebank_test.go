@@ -1,4 +1,4 @@
-package mountebank_test
+package gobank_test
 
 import (
 	"log"
@@ -6,8 +6,7 @@ import (
 	"strconv"
 	"sync"
 
-	"github.com/durmaze/gobank/builders"
-	"github.com/durmaze/gobank/mountebank"
+	"github.com/durmaze/gobank"
 	"github.com/durmaze/gobank/predicates"
 	"github.com/durmaze/gobank/responses"
 	"github.com/parnurzeal/gorequest"
@@ -24,7 +23,7 @@ var _ = Describe("Mountebank Client", func() {
 			protocol         = "http"
 			port             = 4546
 			createdImposter  map[string]interface{}
-			expectedImposter builders.Imposter
+			expectedImposter gobank.ImposterElement
 			err              error
 
 			once sync.Once
@@ -39,11 +38,11 @@ var _ = Describe("Mountebank Client", func() {
 				exists := predicates.Exists().Method(true).Query("q", false).Body(false).Build()
 				or := predicates.Or().Predicates(equals, contains, exists).Build()
 
-				stub := builders.Stub().Responses(okResponse).Predicates(or).Build()
+				stub := gobank.Stub().Responses(okResponse).Predicates(or).Build()
 
-				expectedImposter = builders.NewImposterBuilder().Protocol(protocol).Port(port).Name("Greeting Imposter").Stubs(stub).Build()
+				expectedImposter = gobank.NewImposterBuilder().Protocol(protocol).Port(port).Name("Greeting Imposter").Stubs(stub).Build()
 
-				client := mountebank.NewClient(MountebankUri)
+				client := gobank.NewClient(MountebankUri)
 				createdImposter, err = client.CreateImposter(expectedImposter)
 				log.Println("ActualImposter: ", createdImposter)
 			})
@@ -91,8 +90,8 @@ var _ = Describe("Mountebank Client", func() {
 
 		BeforeEach(func() {
 			once.Do(func() {
-				imposter := builders.NewImposterBuilder().Protocol(protocol).Port(port).Build()
-				client := mountebank.NewClient(MountebankUri)
+				imposter := gobank.NewImposterBuilder().Protocol(protocol).Port(port).Build()
+				client := gobank.NewClient(MountebankUri)
 				client.CreateImposter(imposter)
 
 				deletedImposter, err = client.DeleteImposter(port)
@@ -129,10 +128,10 @@ var _ = Describe("Mountebank Client", func() {
 
 		BeforeEach(func() {
 			once.Do(func() {
-				imposter1 := builders.NewImposterBuilder().Protocol(protocol).Build()
-				imposter2 := builders.NewImposterBuilder().Protocol(protocol).Build()
+				imposter1 := gobank.NewImposterBuilder().Protocol(protocol).Build()
+				imposter2 := gobank.NewImposterBuilder().Protocol(protocol).Build()
 
-				client := mountebank.NewClient(MountebankUri)
+				client := gobank.NewClient(MountebankUri)
 				client.CreateImposter(imposter1)
 				client.CreateImposter(imposter2)
 

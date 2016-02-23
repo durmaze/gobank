@@ -1,4 +1,4 @@
-package builders
+package gobank
 
 import (
 	"github.com/durmaze/gobank/predicates"
@@ -10,37 +10,30 @@ type StubElement struct {
 	Predicates []predicates.Predicate `json:"predicates"`
 }
 
-type stubBuilder struct {
+type StubBuilder struct {
 	responses  []responses.Response
 	predicates []predicates.Predicate
 }
 
-type StubBuilder interface {
-	Responses(...responses.Response) StubBuilder
-	Predicates(...predicates.Predicate) StubBuilder
-
-	Build() StubElement
-}
-
-func (builder *stubBuilder) Responses(responses ...responses.Response) StubBuilder {
+func (builder *StubBuilder) Responses(responses ...responses.Response) *StubBuilder {
 	builder.responses = responses
 
 	return builder
 }
 
-func (builder *stubBuilder) Predicates(predicates ...predicates.Predicate) StubBuilder {
+func (builder *StubBuilder) Predicates(predicates ...predicates.Predicate) *StubBuilder {
 	builder.predicates = predicates
 
 	return builder
 }
 
-func (builder *stubBuilder) Build() StubElement {
+func (builder *StubBuilder) Build() StubElement {
 	return StubElement{
 		Responses:  builder.responses,
 		Predicates: builder.predicates,
 	}
 }
 
-func Stub() StubBuilder {
-	return &stubBuilder{}
+func Stub() *StubBuilder {
+	return &StubBuilder{}
 }

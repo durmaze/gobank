@@ -1,6 +1,6 @@
-package builders
+package gobank
 
-type Imposter struct {
+type ImposterElement struct {
 	Protocol string        `json:"protocol"`
 	Port     int           `json:"port,omitempty"`
 	Name     string        `json:"name,omitempty"`
@@ -46,8 +46,8 @@ func (builder *ImposterBuilder) Stubs(stubs ...StubElement) *ImposterBuilder {
 	return builder
 }
 
-func (builder *ImposterBuilder) Build() Imposter {
-	return Imposter{
+func (builder *ImposterBuilder) Build() ImposterElement {
+	return ImposterElement{
 		Protocol: builder.protocol,
 		Port:     builder.port,
 		Name:     builder.name,

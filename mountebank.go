@@ -1,4 +1,4 @@
-package mountebank
+package gobank
 
 import (
 	"encoding/json"
@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"strconv"
 
-	. "github.com/durmaze/gobank/builders"
 	"github.com/parnurzeal/gorequest"
 )
 
@@ -22,7 +21,7 @@ func NewClient(mountebankUri string) *Client {
 	}
 }
 
-func (c *Client) CreateImposter(imposter Imposter) (map[string]interface{}, error) {
+func (c *Client) CreateImposter(imposter ImposterElement) (map[string]interface{}, error) {
 	resp, body, errs := gorequest.New().Post(c.impostersUri).Send(imposter).EndBytes()
 
 	if len(errs) > 0 {

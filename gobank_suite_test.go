@@ -1,4 +1,4 @@
-package mountebank_test
+package gobank_test
 
 import (
 	"net/http"
