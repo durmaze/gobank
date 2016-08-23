@@ -30,3 +30,4 @@ tags
 
 # unnecessary build artefacts
 *.coverprofile
+.idea
