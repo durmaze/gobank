@@ -21,10 +21,10 @@ func (p exists) Type() string {
 func (p exists) MarshalJSON() ([]byte, error) {
 	requestBytes, _ := json.Marshal(p.req)
 
-	requestJson := string(requestBytes)
-	existsJson := " { \"exists\" : " + requestJson + "}"
+	requestJSON := string(requestBytes)
+	existsJSON := " { \"exists\" : " + requestJSON + "}"
 
-	return []byte(existsJson), nil
+	return []byte(existsJSON), nil
 }
 
 type ExistsBuilder struct {

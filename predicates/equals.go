@@ -13,10 +13,10 @@ func (p equals) Type() string {
 func (p equals) MarshalJSON() ([]byte, error) {
 	requestBytes, _ := json.Marshal(p.req)
 
-	requestJson := string(requestBytes)
-	equalsJson := " { \"equals\" : " + requestJson + "}"
+	requestJSON := string(requestBytes)
+	equalsJSON := " { \"equals\" : " + equalsJSON + "}"
 
-	return []byte(equalsJson), nil
+	return []byte(equalsJSON), nil
 }
 
 type EqualsBuilder struct {

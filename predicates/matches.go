@@ -13,10 +13,10 @@ func (p matches) Type() string {
 func (p matches) MarshalJSON() ([]byte, error) {
 	requestBytes, _ := json.Marshal(p.req)
 
-	requestJson := string(requestBytes)
-	matchesJson := " { \"matches\" : " + requestJson + "}"
+	requestJSON := string(requestBytes)
+	matchesJSON := " { \"matches\" : " + requestJSON + "}"
 
-	return []byte(matchesJson), nil
+	return []byte(matchesJSON), nil
 }
 
 type MatchesBuilder struct {

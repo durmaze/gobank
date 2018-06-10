@@ -13,10 +13,10 @@ func (p endsWith) Type() string {
 func (p endsWith) MarshalJSON() ([]byte, error) {
 	requestBytes, _ := json.Marshal(p.req)
 
-	requestJson := string(requestBytes)
-	endsWithJson := " { \"endsWith\" : " + requestJson + "}"
+	requestJSON := string(requestBytes)
+	endsWithJSON := " { \"endsWith\" : " + requestJSON + "}"
 
-	return []byte(endsWithJson), nil
+	return []byte(endsWithJSON), nil
 }
 
 type EndsWithBuilder struct {
