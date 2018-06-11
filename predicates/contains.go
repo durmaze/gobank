@@ -13,10 +13,10 @@ func (p contains) Type() string {
 func (p contains) MarshalJSON() ([]byte, error) {
 	requestBytes, _ := json.Marshal(p.req)
 
-	requestJson := string(requestBytes)
-	containsJson := " { \"contains\" : " + requestJson + "}"
+	requestJSON := string(requestBytes)
+	containsJSON := " { \"contains\" : " + requestJSON + "}"
 
-	return []byte(containsJson), nil
+	return []byte(containsJSON), nil
 }
 
 type ContainsBuilder struct {

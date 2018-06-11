@@ -42,15 +42,15 @@ var _ = Describe("Mountebank Client", func() {
 
 				expectedImposter = gobank.NewImposterBuilder().Protocol(protocol).Port(port).Name("Greeting Imposter").Stubs(stub).Build()
 
-				client := gobank.NewClient(MountebankUri)
+				client := gobank.NewClient(MountebankURI)
 				createdImposter, err = client.CreateImposter(expectedImposter)
 				log.Println("ActualImposter: ", createdImposter)
 			})
 		})
 
 		It("should have the Imposter installed on Mountebank", func() {
-			imposterUri := MountebankUri + "/imposters/" + strconv.Itoa(port)
-			resp, body, _ := gorequest.New().Get(imposterUri).End()
+			imposterURI := MountebankURI + "/imposters/" + strconv.Itoa(port)
+			resp, body, _ := gorequest.New().Get(imposterURI).End()
 
 			log.Println("Imposter from Mountebank. Body: ", body)
 			Expect(resp.StatusCode).To(Equal(http.StatusOK))
@@ -91,7 +91,7 @@ var _ = Describe("Mountebank Client", func() {
 		BeforeEach(func() {
 			once.Do(func() {
 				imposter := gobank.NewImposterBuilder().Protocol(protocol).Port(port).Build()
-				client := gobank.NewClient(MountebankUri)
+				client := gobank.NewClient(MountebankURI)
 				client.CreateImposter(imposter)
 
 				deletedImposter, err = client.DeleteImposter(port)
@@ -99,8 +99,8 @@ var _ = Describe("Mountebank Client", func() {
 		})
 
 		It("should delete the installed Imposter at Mountebank", func() {
-			imposterUri := MountebankUri + "/imposters/" + strconv.Itoa(port)
-			resp, _, _ := gorequest.New().Get(imposterUri).End()
+			imposterURI := MountebankURI + "/imposters/" + strconv.Itoa(port)
+			resp, _, _ := gorequest.New().Get(imposterURI).End()
 
 			Expect(resp.StatusCode).To(Equal(http.StatusNotFound))
 		})
@@ -131,7 +131,7 @@ var _ = Describe("Mountebank Client", func() {
 				imposter1 := gobank.NewImposterBuilder().Protocol(protocol).Build()
 				imposter2 := gobank.NewImposterBuilder().Protocol(protocol).Build()
 
-				client := gobank.NewClient(MountebankUri)
+				client := gobank.NewClient(MountebankURI)
 				client.CreateImposter(imposter1)
 				client.CreateImposter(imposter2)
 
@@ -140,8 +140,8 @@ var _ = Describe("Mountebank Client", func() {
 		})
 
 		It("should delete all the installed Imposters at Mountebank", func() {
-			impostersUri := MountebankUri + "/imposters"
-			resp, _, _ := gorequest.New().Get(impostersUri).End()
+			impostersURI := MountebankURI + "/imposters"
+			resp, _, _ := gorequest.New().Get(impostersURI).End()
 
 			Expect(resp.StatusCode).To(Equal(http.StatusOK))
 		})

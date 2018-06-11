@@ -10,19 +10,19 @@ import (
 )
 
 type Client struct {
-	mountebankUri string
-	impostersUri  string
+	mountebankURI string
+	impostersURI  string
 }
 
-func NewClient(mountebankUri string) *Client {
+func NewClient(mountebankURI string) *Client {
 	return &Client{
-		mountebankUri: mountebankUri,
-		impostersUri:  mountebankUri + "/imposters",
+		mountebankURI: mountebankURI,
+		impostersURI:  mountebankURI + "/imposters",
 	}
 }
 
 func (c *Client) CreateImposter(imposter ImposterElement) (map[string]interface{}, error) {
-	resp, body, errs := gorequest.New().Post(c.impostersUri).Send(imposter).EndBytes()
+	resp, body, errs := gorequest.New().Post(c.impostersURI).Send(imposter).EndBytes()
 
 	if len(errs) > 0 {
 		return nil, errs[0]
@@ -39,9 +39,9 @@ func (c *Client) CreateImposter(imposter ImposterElement) (map[string]interface{
 }
 
 func (c *Client) DeleteImposter(port int) (map[string]interface{}, error) {
-	imposterUri := c.impostersUri + "/" + strconv.Itoa(port)
+	imposterURI := c.impostersURI + "/" + strconv.Itoa(port)
 
-	resp, body, errs := gorequest.New().Delete(imposterUri).EndBytes()
+	resp, body, errs := gorequest.New().Delete(imposterURI).EndBytes()
 
 	if len(errs) > 0 {
 		return nil, errs[0]
@@ -58,7 +58,7 @@ func (c *Client) DeleteImposter(port int) (map[string]interface{}, error) {
 }
 
 func (c *Client) DeleteAllImposters() (map[string]interface{}, error) {
-	resp, body, errs := gorequest.New().Delete(c.impostersUri).EndBytes()
+	resp, body, errs := gorequest.New().Delete(c.impostersURI).EndBytes()
 
 	if len(errs) > 0 {
 		return nil, errs[0]

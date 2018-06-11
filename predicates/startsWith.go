@@ -13,10 +13,10 @@ func (p startsWith) Type() string {
 func (p startsWith) MarshalJSON() ([]byte, error) {
 	requestBytes, _ := json.Marshal(p.req)
 
-	requestJson := string(requestBytes)
-	startsWithJson := " { \"startsWith\" : " + requestJson + "}"
+	requestJSON := string(requestBytes)
+	startsWithJSON := " { \"startsWith\" : " + requestJSON + "}"
 
-	return []byte(startsWithJson), nil
+	return []byte(startsWithJSON), nil
 }
 
 type StartsWithBuilder struct {

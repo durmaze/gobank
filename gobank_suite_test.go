@@ -10,7 +10,7 @@ import (
 	"github.com/parnurzeal/gorequest"
 )
 
-var MountebankUri string
+var MountebankURI string
 
 func TestMountebank(t *testing.T) {
 	RegisterFailHandler(Fail)
@@ -18,28 +18,28 @@ func TestMountebank(t *testing.T) {
 }
 
 var _ = BeforeSuite(func() {
-	MountebankUri = os.Getenv("MOUNTEBANK_URI")
-	if len(MountebankUri) == 0 {
-		MountebankUri = "http://localhost:2525"
+	MountebankURI = os.Getenv("MOUNTEBANK_URI")
+	if len(MountebankURI) == 0 {
+		MountebankURI = "http://localhost:2525"
 	}
 
-	Expect(isMountebankRunning(MountebankUri)).To(BeTrue(), "Mountebank is not running")
+	Expect(isMountebankRunning(MountebankURI)).To(BeTrue(), "Mountebank is not running")
 
-	truncateMountebank(MountebankUri)
+	truncateMountebank(MountebankURI)
 })
 
 var _ = AfterSuite(func() {
 })
 
-func isMountebankRunning(mountebankBaseUri string) bool {
-	resp, _, errs := gorequest.New().Get(mountebankBaseUri).End()
+func isMountebankRunning(mountebankBaseURI string) bool {
+	resp, _, errs := gorequest.New().Get(mountebankBaseURI).End()
 
 	Expect(errs).To(HaveLen(0))
 
 	return resp.StatusCode == http.StatusOK
 }
 
-func truncateMountebank(mountebankBaseUri string) {
-	impostersUri := mountebankBaseUri + "/imposters"
-	gorequest.New().Delete(impostersUri).End()
+func truncateMountebank(mountebankBaseURI string) {
+	impostersURI := mountebankBaseURI + "/imposters"
+	gorequest.New().Delete(impostersURI).End()
 }

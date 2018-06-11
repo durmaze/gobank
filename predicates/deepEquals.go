@@ -13,10 +13,10 @@ func (p deepEquals) Type() string {
 func (p deepEquals) MarshalJSON() ([]byte, error) {
 	requestBytes, _ := json.Marshal(p.req)
 
-	requestJson := string(requestBytes)
-	deepEqualsJson := " { \"deepEquals\" : " + requestJson + "}"
+	requestJSON := string(requestBytes)
+	deepEqualsJSON := " { \"deepEquals\" : " + requestJSON + "}"
 
-	return []byte(deepEqualsJson), nil
+	return []byte(deepEqualsJSON), nil
 }
 
 type DeepEqualsBuilder struct {
