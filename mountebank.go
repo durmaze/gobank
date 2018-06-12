@@ -5,6 +5,7 @@ import (
 	"errors"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/parnurzeal/gorequest"
 )
@@ -14,11 +15,35 @@ type Client struct {
 	impostersURI  string
 }
 
+type Log struct {
+	level     string
+	message   string
+	timestamp string
+}
+
 func NewClient(mountebankURI string) *Client {
 	return &Client{
 		mountebankURI: mountebankURI,
 		impostersURI:  mountebankURI + "/imposters",
 	}
+}
+
+func (c *Client) Logs() ([]Log, error) {
+
+	_, body, errs := gorequest.New().Get(c.mountebankURI + "/logs").EndBytes()
+	if len(errs) > 0 {
+		return nil, errs[0]
+	}
+
+	var logsStructure map[string][]map[string]string
+	json.NewDecoder(strings.NewReader(string(body))).Decode(&logsStructure)
+
+	var logs []Log
+	for _, log := range logsStructure["logs"] {
+		logs = append(logs, Log{level: log["level"], message: log["message"], timestamp: log["timestamp"]})
+	}
+
+	return logs, nil
 }
 
 func (c *Client) CreateImposter(imposter ImposterElement) (map[string]interface{}, error) {
