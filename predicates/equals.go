@@ -14,7 +14,7 @@ func (p equals) MarshalJSON() ([]byte, error) {
 	requestBytes, _ := json.Marshal(p.req)
 
 	requestJSON := string(requestBytes)
-	equalsJSON := " { \"equals\" : " + equalsJSON + "}"
+	equalsJSON := " { \"equals\" : " + requestJSON + "}"
 
 	return []byte(equalsJSON), nil
 }
