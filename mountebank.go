@@ -98,3 +98,24 @@ func (c *Client) DeleteAllImposters() (map[string]interface{}, error) {
 
 	return nil, errors.New("Cannot delete all of the imposters")
 }
+
+func (c *Client) NumberOfRequests(port int) (int, error) {
+	imposterURI := c.impostersURI + "/" + strconv.Itoa(port)
+
+	resp, body, errs := gorequest.New().Get(imposterURI).EndBytes()
+
+	if len(errs) > 0 {
+		return -1, errs[0]
+	}
+
+	if resp.StatusCode == http.StatusOK {
+		var response map[string]interface{}
+		json.Unmarshal(body, &response)
+
+		if val, err := response["numberOfRequests"]; err {
+			return int(val.(float64)), nil
+		}
+	}
+
+	return -1, errors.New("Cannot get number of requests (did you remember adds RecordRequests when creating imposter or add --mock option to mb.)")
+}

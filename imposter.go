@@ -1,19 +1,21 @@
 package gobank
 
 type ImposterElement struct {
-	Protocol string        `json:"protocol"`
-	Port     int           `json:"port,omitempty"`
-	Name     string        `json:"name,omitempty"`
-	Mode     string        `json:"mode,omitempty"`
-	Stubs    []StubElement `json:"stubs,omitempty"`
+	Protocol       string        `json:"protocol"`
+	Port           int           `json:"port,omitempty"`
+	Name           string        `json:"name,omitempty"`
+	Mode           string        `json:"mode,omitempty"`
+	Stubs          []StubElement `json:"stubs,omitempty"`
+	RecordRequests bool          `json:"recordRequests,omitempty"`
 }
 
 type ImposterBuilder struct {
-	protocol string
-	port     int
-	name     string
-	mode     string
-	stubs    []StubElement
+	protocol       string
+	port           int
+	name           string
+	mode           string
+	recordRequests bool
+	stubs          []StubElement
 }
 
 func (builder *ImposterBuilder) Protocol(protocol string) *ImposterBuilder {
@@ -46,13 +48,20 @@ func (builder *ImposterBuilder) Stubs(stubs ...StubElement) *ImposterBuilder {
 	return builder
 }
 
+func (builder *ImposterBuilder) RecordRequests(reply bool) *ImposterBuilder {
+	builder.recordRequests = reply
+
+	return builder
+}
+
 func (builder *ImposterBuilder) Build() ImposterElement {
 	return ImposterElement{
-		Protocol: builder.protocol,
-		Port:     builder.port,
-		Name:     builder.name,
-		Mode:     builder.mode,
-		Stubs:    builder.stubs,
+		Protocol:       builder.protocol,
+		Port:           builder.port,
+		Name:           builder.name,
+		Mode:           builder.mode,
+		Stubs:          builder.stubs,
+		RecordRequests: builder.recordRequests,
 	}
 }
 
