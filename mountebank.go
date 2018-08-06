@@ -112,8 +112,8 @@ func (c *Client) NumberOfRequests(port int) (int, error) {
 		var response map[string]interface{}
 		json.Unmarshal(body, &response)
 
-		if val, err := response["numberOfRequests"]; err {
-			return int(val.(float64)), nil
+		if val, err := response["requests"]; err {
+			return len(val.([]interface{})), nil
 		}
 	}
 
