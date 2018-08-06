@@ -1,7 +1,6 @@
 - add tests for JSON output checking
 - refactor json to map conversion used in tests
 - restrict builder calls (e.g. imposter.Protocol(..).Protocol(..) should not be allowed)
-- integrate Travis CI on Github (alper)
 - add examples
 	- imposter
 	- abstraction
