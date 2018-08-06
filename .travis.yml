@@ -41,3 +41,4 @@ before_script:
 # .golangci.yml file at the top level of your repo.
 script:
   - ginkgo -v -r
+  - go build
