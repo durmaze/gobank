@@ -105,7 +105,7 @@ func (c *Client) NumberOfRequests(port int) (int, error) {
 	resp, body, errs := gorequest.New().Get(imposterURI).EndBytes()
 
 	if len(errs) > 0 {
-		return -1, errs[0]
+		return 0, errs[0]
 	}
 
 	if resp.StatusCode == http.StatusOK {
@@ -117,5 +117,5 @@ func (c *Client) NumberOfRequests(port int) (int, error) {
 		}
 	}
 
-	return -1, errors.New("Cannot get number of requests (did you remember adds RecordRequests when creating imposter or add --mock option to mb.)")
+	return 0, errors.New("Cannot get number of requests (did you remember adds RecordRequests when creating imposter or add --mock option to mb.)")
 }
