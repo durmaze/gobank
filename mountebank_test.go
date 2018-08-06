@@ -1,8 +1,10 @@
 package gobank_test
 
 import (
+	"fmt"
 	"log"
 	"net/http"
+	"net/url"
 	"strconv"
 	"sync"
 
@@ -148,6 +150,45 @@ var _ = Describe("Mountebank Client", func() {
 
 		It("should not return an error", func() {
 			Expect(err).To(BeNil())
+		})
+	})
+
+	Describe("When fetch number of requests after makes 2 requests", func() {
+		var (
+			protocol         = "http"
+			port             = 6789
+			err              error
+			numberOfRequests int
+
+			once sync.Once
+		)
+
+		BeforeEach(func() {
+			once.Do(func() {
+				okResponse := responses.Is().StatusCode(200).Body("{ \"greeting\": \"Hello GoBank\" }").Build()
+				stub := gobank.Stub().Responses(okResponse).Predicates(predicates.Equals().Path("/test-path").Build()).Build()
+
+				imposter := gobank.NewImposterBuilder().RecordRequests(true).Protocol(protocol).Port(port).Name("Request Count Imposter").Stubs(stub).Build()
+
+				client := gobank.NewClient(MountebankURI)
+				client.CreateImposter(imposter)
+
+				url, _ := url.Parse(MountebankURI)
+				applicationUrl := fmt.Sprintf("http://%s:%d/test-path", url.Hostname(), port)
+
+				gorequest.New().Get(applicationUrl).End()
+				gorequest.New().Get(applicationUrl).End()
+
+				numberOfRequests, err = client.NumberOfRequests(port)
+			})
+		})
+
+		It("should not return error", func() {
+			Expect(err).To(BeNil())
+		})
+
+		It("should return correct number of requests", func() {
+			Expect(numberOfRequests).To(Equal(2))
 		})
 	})
 
