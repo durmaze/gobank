@@ -288,7 +288,7 @@ do_install() {
 		cat >&2 <<-'EOF'
 			You may press Ctrl+C now to abort this script.
 		EOF
-		( set -x; sleep 20 )
+		( set -x; )
 	fi
 
 	user="$(id -un 2>/dev/null || true)"
