@@ -1,6 +1,8 @@
 GoBank
 =========
 
+[![Build Status](https://travis-ci.org/durmaze/gobank.svg?branch=master)](https://travis-ci.org/durmaze/gobank)
+
 GoBank -- Go client for the awesome, over-the-wire test double [Mountebank](http://www.mbtest.org/).
 
 THIS PROJECT IS CURRENTLY UNDER DEVELOPMENT.
