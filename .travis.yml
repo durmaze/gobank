@@ -18,7 +18,7 @@ git:
 # Skip the install step. Don't `go get` dependencies. Only build with the code
 # in vendor/
 install:
-  - travis_retry travis-scripts/run-containers.bash
+  - travis_retry travis-scripts/run-containers.sh
 
 # Don't email me the results of the test runs.
 notifications:
