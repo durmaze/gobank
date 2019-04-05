@@ -408,6 +408,7 @@ do_install() {
 				fi
 				$sh_c 'apt-get update -qq >/dev/null'
 				$sh_c "apt-get install -y -qq $pre_reqs >/dev/null"
+        $sh_c "curl -L https://packagecloud.io/github/git-lfs/gpgkey | apt-key add -qq >/dev/null"
 				$sh_c "curl -fsSL \"$DOWNLOAD_URL/linux/$lsb_dist/gpg\" | apt-key add -qq - >/dev/null"
 				$sh_c "echo \"$apt_repo\" > /etc/apt/sources.list.d/docker.list"
 				if [ "$lsb_dist" = "debian" ] && [ "$dist_version" = "wheezy" ]; then
