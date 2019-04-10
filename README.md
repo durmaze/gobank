@@ -2,6 +2,7 @@ GoBank
 =========
 
 [![Build Status](https://travis-ci.org/durmaze/gobank.svg?branch=master)](https://travis-ci.org/durmaze/gobank)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 GoBank -- Go client for the awesome, over-the-wire test double [Mountebank](http://www.mbtest.org/).
 
@@ -50,7 +51,3 @@ Currently, only HTTP imposters are supported. Any contributions on HTTPS, SMTP a
 
 Thanks to all contributors thus far:
 @alperkose
-
-## License
-
-GoBank is MIT License.
