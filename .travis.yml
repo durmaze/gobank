@@ -1,17 +1,19 @@
 dist: xenial
 
+services:
+  - docker
+
 language: go
 
 go:
   - 1.11.x
   - 1.12.x
 
-# Only clone the most recent commit.
 git:
   depth: 1
 
-install:
-  - travis_retry travis-scripts/run-containers.sh
+before_install:
+  - docker run -d -p 2525:2525 -p 6789:6789 expert360/mountebank start --mock
 
 notifications:
   email: false
@@ -22,5 +24,5 @@ before_script:
   - go get -u github.com/onsi/gomega/...
 
 script:
-  - ginkgo -v -r
+  - ginkgo -v -r --cover
   - go build
