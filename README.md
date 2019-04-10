@@ -22,9 +22,6 @@ $ go get github.com/durmaze/gobank
 ## Documentation
 See [Go Doc](http://godoc.org/github.com/durmaze/gobank) or [Go Walker](http://gowalker.org/github.com/durmaze/gobank) for usage and details.
 
-## Status
-**TODO** Add Travis Build Status, Go coverage, GoDoc, License, etc.
-
 ## Why should you use GoBank?
 
 GoBank makes things simple if you'd like to use Mountebank in your tests. As recommended by Mountebank, you're better off creating and deleting your imposters in your test lifecycle (i.e. setup and teardown hooks).
