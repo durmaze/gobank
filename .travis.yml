@@ -3,6 +3,9 @@ dist: xenial
 services:
   - docker
 
+env:
+  - CODECOV_TOKEN="0c5360a0-6fa7-4949-80f3-bb3ceb8d9d3f"
+
 language: go
 
 go:
@@ -22,7 +25,13 @@ before_script:
   - go get -u github.com/parnurzeal/gorequest
   - go get -u github.com/onsi/ginkgo/ginkgo
   - go get -u github.com/onsi/gomega/...
+  - go get github.com/modocache/gover
 
 script:
   - ginkgo -v -r --cover
+  - gover
   - go build
+
+after_success:
+  - mv gover.coverprofile coverage.txt
+  - bash <(curl -s https://codecov.io/bash)
