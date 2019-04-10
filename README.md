@@ -2,7 +2,7 @@ GoBank
 =========
 
 [![Build Status](https://travis-ci.org/durmaze/gobank.svg?branch=master)](https://travis-ci.org/durmaze/gobank)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 GoBank -- Go client for the awesome, over-the-wire test double [Mountebank](http://www.mbtest.org/).
 
